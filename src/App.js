@@ -1,3 +1,4 @@
+import { Skeleton } from "@material-ui/lab";
 import "./App.css";
 import { HomePage } from "./components/home/HomePage";
 import { Navbar } from "./components/layouts/navbar/Navbar";
@@ -5,7 +6,7 @@ import { Navbar } from "./components/layouts/navbar/Navbar";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App dar">
       <Navbar />
       <HomePage />
     </div>

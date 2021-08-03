@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AdviceCard } from "./AdviceCard";
 
 const dummyAdvice = [
@@ -62,18 +62,25 @@ const dummyAdvice = [
 ];
 
 export const Advice = () => {
+  const fakeData = new Array(10).fill({});
+  const [data, setData] = useState(fakeData);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setData(dummyAdvice);
+    }, 3000);
+  }, []);
   return (
     <React.Fragment>
       <div className="advice-card">
         <Grid
-          style={{ padding: "2rem" }}
           container
-          spacing={6}
+          spacing={4}
           // justifyContent="space-around"
           className="advice-card-grid"
         >
-          {dummyAdvice &&
-            dummyAdvice.map(
+          {data &&
+            data.map(
               ({
                 adviceHeading,
                 adviceDate,

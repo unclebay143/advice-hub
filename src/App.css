@@ -13,3 +13,44 @@ body {
   min-height: 100vh;
   font-family: "Poppins";
 }
+
+.App.dark header .MuiCard-root {
+  background-color: #f5f8fc;
+}
+
+.App.dark .brand {
+  color: #ccc;
+}
+
+.App.dark {
+  background-color: #f5f8fc;
+  color: #000;
+}
+
+.App.dark .advice-card .MuiCard-root {
+  background-color: #f5f8fc;
+  color: #000;
+  border: 0.9px solid rgb(168, 179, 207);
+}
+
+.App.dark .advice-card-grid .MuiCardHeader-title {
+  color: #000;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.App.dark .advice-category-tag {
+  color: #000;
+}
+
+.App.dark .advice-category-tag::before {
+  background-color: #000;
+}
+
+.App.dark .advice-card .MuiSvgIcon-root {
+  color: #000;
+}
+
+.App.dark .advice-card .vote-count {
+  color: #000;
+}
