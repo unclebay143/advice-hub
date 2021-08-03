@@ -1,0 +1,103 @@
+/* FIX THE HEIGHT OF CARD WITH COUNT AND NON WITH COUNT */
+
+/* Whole card */
+.advice-card .MuiCard-root {
+  border: 0.9px solid rgba(168, 179, 207, 0.2);
+  font-family: "Poppins";
+  max-width: 345px;
+  margin: "auto";
+  background-color: #1c1f26;
+}
+
+.advice-card .MuiCardHeader-root {
+  height: 10rem;
+  max-height: 10rem;
+  cursor: pointer;
+  align-items: unset;
+}
+
+.advice-card .MuiPaper-rounded {
+  border-radius: 1rem;
+}
+
+/* Advice category */
+.advice-category-tag {
+  font-size: 0.77rem;
+  padding: 10px 16px;
+  color: yellow;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+}
+
+/* Category dot */
+.advice-category-tag::before {
+  content: " ";
+  height: 5px;
+  width: 5px;
+  background-color: yellow;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.56rem;
+}
+
+/* Title and date container */
+.advice-card .MuiCardHeader-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: "Poppins";
+}
+
+/* Card title */
+.advice-card-grid .MuiCardHeader-title {
+  color: var(--app-text-tertiary);
+  font-weight: 400;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  padding-top: 1rem;
+  text-transform: capitalize;
+  font-family: "Poppins";
+}
+
+/* Date */
+.advice-card .MuiCardHeader-subheader {
+  color: var(--app-text-tertiary);
+  font-size: 0.8125rem;
+  margin-top: 0.9rem;
+  font-family: "Poppins";
+}
+
+/* Card svg wrapper*/
+.advice-card .MuiCardActions-root {
+  justify-content: space-between;
+}
+
+/* Card svg */
+.advice-card .MuiSvgIcon-root {
+  color: var(--app-text-tertiary);
+  border-radius: 0.5rem;
+}
+
+.advice-card .MuiSvgIcon-root:hover {
+  color: #39e58c;
+}
+
+/* Svg button wrapper */
+.advice-card .MuiIconButton-root:hover {
+  background-color: rgba(14, 16, 20, 0.5);
+  color: #39e58c;
+}
+
+.advice-card .MuiIconButton-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Vote count */
+.advice-card .upvote-count {
+  color: var(--app-text-tertiary);
+  font-size: 1.2rem;
+  padding: 0rem 0.3rem;
+}
