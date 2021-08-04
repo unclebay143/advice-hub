@@ -1,0 +1,70 @@
+#new-advice-form-container {
+  background-color: var(--app-background-primary);
+  outline: none;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+#new-advice-form-container h2 {
+  color: var(--app-text-primary);
+  line-height: 2;
+}
+
+#new-advice-form-container p {
+  color: var(--app-text-secondary);
+  font-size: 14px;
+}
+
+#new-advice-form-container label {
+  margin-top: 1rem;
+  color: var(--app-text-tertiary);
+}
+
+.new-advice-form > .input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-advice-form > .input-wrapper label {
+  margin: 1rem 0;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+.new-advice-form > .input-wrapper input,
+.new-advice-form > .input-wrapper select:focus {
+  outline: none;
+}
+.new-advice-form > .input-wrapper input,
+.new-advice-form > .input-wrapper select {
+  height: 3rem;
+  padding: 0 0.5rem;
+}
+
+.new-advice-form > .input-wrapper textarea {
+  resize: none;
+  height: 10rem;
+  padding: 0.6rem 0.5rem;
+}
+
+.new-advice-form > .input-wrapper.btn-wrapper {
+  margin-top: 1rem;
+}
+
+.new-advice-form > .input-wrapper.btn-wrapper button {
+  background-color: var(--app-background-secondary);
+}
+
+@media (min-width: 900px) {
+  .new-advice-form > .input-wrapper textarea {
+    width: 50vw;
+  }
+
+  #new-advice-form-container p {
+    font-size: 14px;
+  }
+}

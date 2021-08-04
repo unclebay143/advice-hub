@@ -72,6 +72,7 @@ export const Advice = () => {
   }, []);
   return (
     <React.Fragment>
+      {/* <Choice /> */}
       <div className="advice-card">
         <Grid
           container

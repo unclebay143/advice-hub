@@ -3,13 +3,14 @@
 
 .advice-card {
   padding: 2rem;
+  display: flex;
 }
 
 /* Whole card */
 .advice-card .MuiCard-root {
   border: 0.9px solid var(--app-border-primary);
   font-family: "Poppins";
-  max-width: 345px;
+  /* max-width: 345px; */
   margin: "auto";
   cursor: pointer;
   background-color: var(--app-background-secondary);
@@ -32,8 +33,11 @@
 /* Advice category */
 .advice-category-tag {
   font-size: 0.77rem;
+  font-size: 0.87rem;
+  /* font-size: 1rem; */
   padding: 10px 16px;
   color: var(--app-text-secondary);
+  color: var(--app-text-primary);
   text-transform: capitalize;
   display: flex;
   align-items: center;
@@ -47,6 +51,7 @@
   height: 5px;
   width: 5px;
   background-color: var(--app-text-secondary);
+  background-color: var(--app-text-primary);
   border-radius: 50%;
   display: inline-block;
   margin-right: 0.56rem;
@@ -58,6 +63,10 @@
   flex-direction: column;
   justify-content: space-between;
   font-family: "Poppins";
+}
+
+.advice-card-grid {
+  margin: auto;
 }
 
 /* Card title */
@@ -120,10 +129,11 @@
   justify-content: center;
   align-items: center;
   padding-bottom: 0.67rem;
+  font-weight: 900;
 }
 
 @media (min-width: 900px) {
   .advice-card {
-    padding: 4rem;
+    padding: 3rem 4rem 4rem 4rem;
   }
 }

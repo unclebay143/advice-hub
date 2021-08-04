@@ -3,7 +3,6 @@ import { Skeleton } from "@material-ui/lab";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import { Grid } from "@material-ui/core";
 import {

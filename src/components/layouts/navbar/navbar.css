@@ -3,8 +3,8 @@ header {
 }
 
 header .brand {
-  color: var(--app-text-tertiary);
-  font-size: 1.65rem;
+  color: var(--app-text-primary);
+  font-size: 1.25rem;
   font-weight: 700;
 }
 
@@ -17,6 +17,34 @@ header .MuiCard-root {
   align-items: center;
   background: var(--app-background-primary);
   border-bottom: 0.9px solid rgba(168, 179, 207, 0.2);
+}
+
+header .MuiCard-root .nav-right {
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-right > div {
+  display: flex;
+  margin: auto;
+  cursor: pointer;
+  font-weight: 100;
+}
+
+.nav-right .theme-switcher {
+  color: var(--app-text-tertiary);
+
+  /* color: var(--app-text-secondary); */
+}
+
+.nav-right .theme-switcher > * {
+  margin-right: 1rem;
+}
+
+.new-advice-btn {
+  padding-right: 1rem;
+  font-weight: 600;
+  color: var(--app-text-primary);
 }
 
 header .MuiCard-root .nav-right--img {
@@ -33,8 +61,18 @@ header .MuiCard-root .nav-right--img {
   position: absolute;
 }
 
+/* navbar auth buttons */
+.auth-btn button {
+  color: var(--app-text-tertiary);
+  font-weight: 600;
+}
 @media (min-width: 900px) {
   header .MuiCard-root {
     padding: 0 4rem;
+  }
+
+  header .brand {
+    font-size: 1.65rem;
+    font-weight: 700;
   }
 }
