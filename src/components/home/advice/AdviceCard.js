@@ -12,6 +12,8 @@ import {
   BookmarkBorderOutlined,
   ShareOutlined,
 } from "@material-ui/icons";
+import { Link } from "react-router-dom";
+import { pageUrl } from "../../constant/pageurl";
 
 export function AdviceCard({
   adviceHeading,
@@ -24,42 +26,44 @@ export function AdviceCard({
     <React.Fragment>
       {adviceHeading ? (
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <Card>
-            <Avatar
-              aria-label="recipe"
-              style={{ margin: "1rem 1rem 0.45rem 1rem" }}
-            >
-              <img
-                src="https://www.github.com/unclebay143.png"
-                alt="advicer-avatar"
-                width="100%"
-                height="100%"
-              />
-            </Avatar>
-            <p className="advice-category-tag">{adviceCategory}</p>
+          <Link to={`advice/something`} className="no-decoration">
+            <Card>
+              <Avatar
+                aria-label="recipe"
+                style={{ margin: "1rem 1rem 0.45rem 1rem" }}
+              >
+                <img
+                  src="https://www.github.com/unclebay143.png"
+                  alt="advicer-avatar"
+                  width="100%"
+                  height="100%"
+                />
+              </Avatar>
+              <p className="advice-category-tag">{adviceCategory}</p>
 
-            <CardHeader title={adviceHeading} subheader={adviceDate} />
-            <CardActions disableSpacing>
-              <div className="vote-wrap">
-                <ArrowUpwardOutlined />{" "}
-                <span className="vote-count">{adviceUpvote}</span>
-              </div>
-              {/* share icon */}
-              <div className="vote-wrap">
-                <ShareOutlined />
-                <span className="vote-count">&nbsp;</span>
-              </div>
-              {/* bookmark icon */}
-              <div className="vote-wrap">
-                <BookmarkBorderOutlined />
-                <span className="vote-count">&nbsp;</span>
-              </div>
-              <div className="vote-wrap">
-                <ArrowDownwardRounded />{" "}
-                <span className="vote-count">{adviceDownvote}</span>
-              </div>
-            </CardActions>
-          </Card>
+              <CardHeader title={adviceHeading} subheader={adviceDate} />
+              <CardActions disableSpacing>
+                <div className="vote-wrap">
+                  <ArrowUpwardOutlined />{" "}
+                  <span className="vote-count">{adviceUpvote}</span>
+                </div>
+                {/* share icon */}
+                <div className="vote-wrap">
+                  <ShareOutlined />
+                  <span className="vote-count">&nbsp;</span>
+                </div>
+                {/* bookmark icon */}
+                <div className="vote-wrap">
+                  <BookmarkBorderOutlined />
+                  <span className="vote-count">&nbsp;</span>
+                </div>
+                <div className="vote-wrap">
+                  <ArrowDownwardRounded />{" "}
+                  <span className="vote-count">{adviceDownvote}</span>
+                </div>
+              </CardActions>
+            </Card>
+          </Link>
         </Grid>
       ) : (
         <CardSkeleton />

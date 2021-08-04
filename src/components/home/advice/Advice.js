@@ -4,7 +4,8 @@ import { AdviceCard } from "./AdviceCard";
 
 const dummyAdvice = [
   {
-    adviceHeading: "learn html, css and javascript basics before frameworks",
+    adviceHeading:
+      "learn html, css and javascript basics before any frameworks",
     adviceDate: "July 20, 2021",
     adviceUpvote: "12",
     adviceDownvote: "1",

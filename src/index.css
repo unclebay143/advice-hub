@@ -31,3 +31,7 @@ body::-webkit-scrollbar-thumb {
   outline: 1px solid #333333;
   border-radius: 2rem;
 }
+
+.no-decoration {
+  text-decoration: none;
+}

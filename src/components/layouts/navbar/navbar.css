@@ -4,8 +4,10 @@ header {
 
 header .brand {
   color: var(--app-text-primary);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
+  display: flex;
+  align-items: center;
 }
 
 header .MuiCard-root {
@@ -16,7 +18,7 @@ header .MuiCard-root {
   justify-content: space-between;
   align-items: center;
   background: var(--app-background-primary);
-  border-bottom: 0.9px solid rgba(168, 179, 207, 0.2);
+  border-bottom: 0.9px solid var(--app-border-primary);
 }
 
 header .MuiCard-root .nav-right {
@@ -45,6 +47,8 @@ header .MuiCard-root .nav-right {
   padding-right: 1rem;
   font-weight: 600;
   color: var(--app-text-primary);
+  display: flex;
+  font-weight: lighter;
 }
 
 header .MuiCard-root .nav-right--img {
