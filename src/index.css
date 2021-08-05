@@ -2,5 +2,40 @@
   --app-background-primary: #0e1217;
   --app-background-secondary: #1c1f26;
   --app-background-tertiary: #17191f;
+  --app-text-primary: #39e58c;
+  --app-text-secondary: yellow;
   --app-text-tertiary: #a8b3cf;
+  --app-border-primary: rgba(168, 179, 207, 0.2);
+  --app-border-primary-hover: rgba(168, 179, 207, 1);
+  /* 
+  --app-background-primary: #f5f8fc;
+  --app-background-secondary: #f5f8fc;
+  --app-background-tertiary: #f5f8fc;
+  --app-text-tertiary: #333;
+  --app-border-primary: rgb(168, 179, 207);
+  --app-text-secondary: #000; */
+}
+
+/* Scroll-bar styles */
+
+body::-webkit-scrollbar,
+.nav-menu--shadow::-webkit-scrollbar {
+  width: 0.56rem;
+}
+
+body::-webkit-scrollbar-track,
+.nav-menu--shadow::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+body::-webkit-scrollbar-thumb,
+.nav-menu--shadow::-webkit-scrollbar-thumb {
+  background-color: var(--app-text-tertiary);
+  outline: 1px solid #333333;
+  border-radius: 2rem;
+}
+
+.no-decoration {
+  text-decoration: none;
 }

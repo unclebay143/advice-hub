@@ -1,0 +1,48 @@
+.menu-card-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem 1rem 0rem 1rem;
+}
+
+.MuiFilledInput-root {
+  border-top-left-radius: 0.9rem;
+  border-top-right-radius: 0.9rem;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  /* border: 2px solid var(--app-border-primary); */
+  /* background: var(--app-background-secondary); */
+}
+
+.menu-card-grid .MuiFilledInput-root {
+  color: var(--app-text-tertiary);
+  font-family: "Poppins";
+}
+
+.menu-card-grid .MuiFormControl-root {
+  width: -webkit-fill-available;
+  margin-top: 2rem;
+}
+
+.menu-card-grid .MuiFilledInput-root.Mui-focused {
+  color: var(--app-border-primary-hover);
+}
+
+.menu-card-grid .MuiSelect-icon {
+  color: var(--app-text-tertiary);
+}
+
+.menu-card-grid .MuiInputLabel-filled {
+  color: var(--app-text-primary);
+  font-weight: 600;
+}
+
+.menu-card-grid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-card-grid .MuiFilledInput-underline:after {
+  border-bottom: 2px solid var(--app-text-secondary);
+}

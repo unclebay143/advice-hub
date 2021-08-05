@@ -1,18 +1,28 @@
 /* FIX THE HEIGHT OF CARD WITH COUNT AND NON WITH COUNT */
+/* make the counter green when the user upvote or downvote */
+
+.advice-card {
+  padding: 2rem;
+  display: flex;
+}
 
 /* Whole card */
 .advice-card .MuiCard-root {
-  border: 0.9px solid rgba(168, 179, 207, 0.2);
+  border: 0.9px solid var(--app-border-primary);
   font-family: "Poppins";
-  max-width: 345px;
+  /* max-width: 345px; */
   margin: "auto";
-  background-color: #1c1f26;
+  cursor: pointer;
+  background-color: var(--app-background-secondary);
+}
+
+.advice-card .MuiCard-root:hover {
+  border: 1px solid var(--app-border-primary-hover);
 }
 
 .advice-card .MuiCardHeader-root {
   height: 10rem;
   max-height: 10rem;
-  cursor: pointer;
   align-items: unset;
 }
 
@@ -23,11 +33,16 @@
 /* Advice category */
 .advice-category-tag {
   font-size: 0.77rem;
+  font-size: 0.87rem;
+  /* font-size: 1rem; */
   padding: 10px 16px;
-  color: yellow;
+  color: var(--app-text-secondary);
+  color: var(--app-text-primary);
   text-transform: capitalize;
   display: flex;
   align-items: center;
+  position: relative;
+  top: 20px;
 }
 
 /* Category dot */
@@ -35,7 +50,8 @@
   content: " ";
   height: 5px;
   width: 5px;
-  background-color: yellow;
+  background-color: var(--app-text-secondary);
+  background-color: var(--app-text-primary);
   border-radius: 50%;
   display: inline-block;
   margin-right: 0.56rem;
@@ -49,10 +65,14 @@
   font-family: "Poppins";
 }
 
+.advice-card-grid {
+  margin: auto;
+}
+
 /* Card title */
 .advice-card-grid .MuiCardHeader-title {
   color: var(--app-text-tertiary);
-  font-weight: 400;
+  font-weight: 700;
   font-size: 1.1rem;
   line-height: 1.6;
   padding-top: 1rem;
@@ -71,22 +91,24 @@
 /* Card svg wrapper*/
 .advice-card .MuiCardActions-root {
   justify-content: space-between;
+  padding: 1em;
 }
 
 /* Card svg */
 .advice-card .MuiSvgIcon-root {
   color: var(--app-text-tertiary);
   border-radius: 0.5rem;
+  font-size: 1.5rem;
 }
 
 .advice-card .MuiSvgIcon-root:hover {
-  color: #39e58c;
+  color: var(--app-text-primary);
 }
 
 /* Svg button wrapper */
 .advice-card .MuiIconButton-root:hover {
   background-color: rgba(14, 16, 20, 0.5);
-  color: #39e58c;
+  color: var(--app-text-primary);
 }
 
 .advice-card .MuiIconButton-label {
@@ -96,8 +118,27 @@
 }
 
 /* Vote count */
-.advice-card .upvote-count {
+.advice-card .vote-count {
   color: var(--app-text-tertiary);
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   padding: 0rem 0.3rem;
+}
+
+.vote-wrap,
+.bookmark-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 0.67rem;
+  font-weight: 900;
+}
+
+.bookmark-wrap .bookmarked {
+  color: var(--app-text-primary);
+}
+
+@media (min-width: 900px) {
+  .advice-card {
+    padding: 3rem 4rem 4rem 4rem;
+  }
 }
