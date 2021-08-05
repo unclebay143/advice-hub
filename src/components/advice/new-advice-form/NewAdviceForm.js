@@ -1,8 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
 import "./new-advice-form.css";
 import { Button } from "@material-ui/core";
 
@@ -22,15 +19,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewAdviceForm() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(!false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <div className={classes.paper} id="new-advice-form-container">

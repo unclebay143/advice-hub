@@ -4,12 +4,23 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <Auth0Provider
+      domain="advicehub.us.auth0.com"
+      clientId="ETLFOPqngAzOL6vketFvIZOd9L9Gjtnb"
+      redirectUri={window.location.origin}
+    >
+      <Provider store={store}>
+        <Router>
+          <App />
+        </Router>
+      </Provider>
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

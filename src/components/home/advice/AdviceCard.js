@@ -13,7 +13,7 @@ import {
   ShareOutlined,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { pageUrl } from "../../constant/pageurl";
+import { timeAgo } from "../../_helper/time/time";
 
 export function AdviceCard({
   adviceHeading,
@@ -21,6 +21,7 @@ export function AdviceCard({
   adviceUpvote,
   adviceDownvote,
   adviceCategory,
+  bookmarked,
 }) {
   return (
     <React.Fragment>
@@ -41,7 +42,11 @@ export function AdviceCard({
               </Avatar>
               <p className="advice-category-tag">{adviceCategory}</p>
 
-              <CardHeader title={adviceHeading} subheader={adviceDate} />
+              <CardHeader
+                title={adviceHeading}
+                subheader={`Posted: ${timeAgo(adviceDate)}`}
+                subheader={timeAgo(adviceDate)}
+              />
               <CardActions disableSpacing>
                 <div className="vote-wrap">
                   <ArrowUpwardOutlined />{" "}
@@ -53,8 +58,10 @@ export function AdviceCard({
                   <span className="vote-count">&nbsp;</span>
                 </div>
                 {/* bookmark icon */}
-                <div className="vote-wrap">
-                  <BookmarkBorderOutlined />
+                <div className="bookmark-wrap">
+                  <BookmarkBorderOutlined
+                    className={`${bookmarked ? "bookmarked" : ""}`}
+                  />
                   <span className="vote-count">&nbsp;</span>
                 </div>
                 <div className="vote-wrap">

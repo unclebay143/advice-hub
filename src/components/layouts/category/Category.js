@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  Grid,
-  InputLabel,
-  makeStyles,
-  Select,
-} from "@material-ui/core";
+import { FormControl, InputLabel, makeStyles, Select } from "@material-ui/core";
 import React from "react";
 import "./category.css";
 

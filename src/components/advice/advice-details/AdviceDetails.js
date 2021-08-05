@@ -24,7 +24,10 @@ export const AdviceDetails = () => {
           </div>
           <section className="author-info">
             <div className="author-image">
-              <img src="https://www.github.com/unclebay143.png" />
+              <img
+                src="https://www.github.com/unclebay143.png"
+                alt="author avatar"
+              />
             </div>
             <cite className="author-name">By: unclebigbay</cite>
           </section>

@@ -8,13 +8,18 @@ export const HomePage = () => {
     <React.Fragment>
       <Menu />
       <Advice />
-      <div className="bma-wrapper">
+      <a
+        href="https://www.buymeacoffee.com/unclebigbay"
+        target="_blank"
+        rel="noreferrer"
+        className="bma-wrapper"
+      >
         <img
           src="https://cdn.buymeacoffee.com/widget/assets/coffee%20cup.svg"
           className="bma-img"
           alt="buy me a coffe logo"
         />
-      </div>
+      </a>
     </React.Fragment>
   );
 };

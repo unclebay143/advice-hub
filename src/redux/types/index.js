@@ -1,0 +1,10 @@
+// App Layout
+export const NAV_MENU_TOGGLE = "NAV_MENU_TOGGLE";
+export const THEME_SWITCHER = "THEME_SWITCHER";
+
+// Advice
+export const LOAD_ADVICES = "LOAD_ADVICES";
+export const POPULAR_ADVICE = "POPULAR_ADVICE";
+export const UPVOTED_ADVICE = "UPVOTED_ADVICE";
+export const RECENT_ADVICE = "RECENT_ADVICE";
+export const BOOKMARKED_ADVICE = "BOOKMARKED_ADVICE";

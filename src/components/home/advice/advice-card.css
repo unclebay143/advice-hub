@@ -124,12 +124,17 @@
   padding: 0rem 0.3rem;
 }
 
-.vote-wrap {
+.vote-wrap,
+.bookmark-wrap {
   display: flex;
   justify-content: center;
   align-items: center;
   padding-bottom: 0.67rem;
   font-weight: 900;
+}
+
+.bookmark-wrap .bookmarked {
+  color: var(--app-text-primary);
 }
 
 @media (min-width: 900px) {

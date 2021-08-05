@@ -1,0 +1,73 @@
+/* use redux to set the body to overlay hidden when menu is on */
+
+.nav-menu--shadow.close {
+  display: none;
+}
+
+.nav-menu--shadow {
+  background-color: rgba(0, 0, 0, 0.7);
+  /* transition: 51s ease; */
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  position: absolute;
+  z-index: 9;
+  top: 3rem;
+  right: 0;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  z-index: 9;
+  width: 21%;
+  padding: 1rem 0.5rem 0.49rem 0.5rem;
+  background-color: var(--app-background-primary);
+  color: white;
+  border: 1px solid var(--app-border-primary);
+  border-right: none;
+  border-top: none;
+  padding-bottom: 4rem;
+}
+
+.nav-menu--item {
+  color: var(--app-text-primary);
+  margin: 0.3rem 0;
+  cursor: pointer;
+}
+
+.nav-menu--item:hover {
+  background-color: var(--app-background-tertiary);
+}
+
+.nav-menu--item.profile-link {
+  text-decoration: none;
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.8rem;
+}
+
+.nav-menu--item.logout-btn {
+  background-color: #b23b3b;
+  background: var(--app-background-tertiary);
+  color: white;
+  font-weight: 600;
+  margin-top: 1rem;
+  padding: 1rem 0;
+  font-size: 14px;
+  width: 100%;
+}
+
+.nav-menu--bma {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-menu--bma .bma-wrapper {
+  position: unset;
+  align-self: flex-end;
+}

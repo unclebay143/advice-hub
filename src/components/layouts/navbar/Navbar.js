@@ -1,33 +1,33 @@
-import { Button, Card } from "@material-ui/core";
-import {
-  Add,
-  Brightness2,
-  BubbleChart,
-  ChatBubble,
-  LinkedCameraOutlined,
-  WbSunny,
-} from "@material-ui/icons";
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { pageUrl } from "../../constant/pageurl";
+import { NavMenu } from "./nav-menu/NavMenu";
+import { NAV_MENU_TOGGLE, THEME_SWITCHER } from "../../../redux/types";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Card } from "@material-ui/core";
+import { useAuth0 } from "@auth0/auth0-react";
 import "./navbar.css";
+import { Add, Brightness2, BubbleChart, WbSunny } from "@material-ui/icons";
 
 export const Navbar = () => {
-  const [lightMode, setLightMode] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  const dispatch = useDispatch();
+  const { loginWithRedirect } = useAuth0();
+  const { theme } = useSelector((state) => state.appLayout);
+
   return (
     <header>
       <Card>
         <Link to={pageUrl.HOMEPAGE} className="brand no-decoration">
-          {/* <LinkedCameraOutlined /> AdviceHub */}
-          {/* <ChatBubble /> AdviceHub */}
-          AdviceHub <BubbleChart />
-          {/* <BubbleChart /> AdviceHub */}
+          AdviceHub <BubbleChart />{" "}
+          {theme === "light" && <p>Light mode (beta)</p>}
         </Link>
 
         <div className="nav-right">
-          {isAuthenticated ? (
+          {isAuthenticated && !isLoading ? (
             <React.Fragment>
+              <NavMenu />
+
               <div className="">
                 <Link
                   className="no-decoration new-advice-btn"
@@ -37,18 +37,29 @@ export const Navbar = () => {
                 </Link>
               </div>
               <div className="theme-switcher">
-                {lightMode ? (
+                {theme === "light" ? (
                   // Default theme is dark mode
-                  <WbSunny onClick={() => setLightMode(!lightMode)} />
+                  <WbSunny
+                    onClick={() =>
+                      dispatch({ type: THEME_SWITCHER, payload: "dark" })
+                    }
+                  />
                 ) : (
-                  <Brightness2 onClick={() => setLightMode(!lightMode)} />
+                  <Brightness2
+                    onClick={() =>
+                      dispatch({ type: THEME_SWITCHER, payload: "light" })
+                    }
+                  />
                 )}
               </div>
-              <div className="nav-right--img">
+              <div
+                className="nav-right--img"
+                onClick={() => dispatch({ type: NAV_MENU_TOGGLE })}
+              >
                 <img
-                  src="https://www.github.com/unclebay143.png"
+                  src={user.picture}
                   width="100%"
-                  alt="user-profile-avatar"
+                  alt={`${user.name} avatar`}
                 />
               </div>
             </React.Fragment>
@@ -56,7 +67,7 @@ export const Navbar = () => {
             <React.Fragment>
               <div className="auth-btn">
                 <Button>Signup</Button>
-                <Button>Login</Button>
+                <Button onClick={() => loginWithRedirect()}>Login</Button>
               </div>
             </React.Fragment>
           )}

@@ -5,10 +5,22 @@ import { HomePage } from "./components/home/HomePage";
 import { Navbar } from "./components/layouts/navbar/Navbar";
 import { pageUrl } from "./components/constant/pageurl";
 import { Route, Switch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { theme, nav_menu_open } = useSelector((state) => state.appLayout);
+
+  if (nav_menu_open) {
+    document.querySelector("body").classList.add("hide-overflow");
+  } else {
+    document.querySelector("body").classList.remove("hide-overflow");
+  }
+
   return (
-    <div className="App dar">
+    <div
+      className={`App ${theme === "light" ? "light" : "default--dark-mode"}
+      }`}
+    >
       <Navbar />
       <Switch>
         <Route exact path={pageUrl.ADVICE_DETAILS} component={AdviceDetails} />
