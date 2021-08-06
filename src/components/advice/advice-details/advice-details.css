@@ -88,9 +88,7 @@
 .advice-description .no-description {
   color: var(--app-text-tertiary);
   text-align: center;
-  /* padding: 1rem 0; */
-  /* font-weight: bold; */
-  /* display: none; */
+  display: none;
   font-size: 0.95rem;
   text-transform: capitalize;
 }

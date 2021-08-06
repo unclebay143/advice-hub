@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
@@ -16,41 +16,59 @@ import { Link } from "react-router-dom";
 import { timeAgo } from "../../_helper/time/time";
 
 export function AdviceCard({
-  adviceHeading,
-  adviceDate,
-  adviceUpvote,
-  adviceDownvote,
-  adviceCategory,
-  bookmarked,
+  createdTime,
+  heading,
+  upvotes,
+  downvotes,
+  category,
+  authorImageUrl,
+  authorUsername,
+  adviceId,
 }) {
+  const bookmarked = false; // keep the id of the user bookmarks advice then check it here and use boolean
+  const [isImageBroken, setIsImageBroken] = useState(false);
+
+  // Handle Broken image
+  const brokenImageAlt = () => {
+    setIsImageBroken(true);
+  };
   return (
     <React.Fragment>
-      {adviceHeading ? (
+      {heading ? (
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <Link to={`advice/something`} className="no-decoration">
+          <Link to={`advice/${adviceId}`} className="no-decoration">
             <Card>
               <Avatar
                 aria-label="recipe"
-                style={{ margin: "1rem 1rem 0.45rem 1rem" }}
+                style={{
+                  margin: "1rem 1rem 0.45rem 1rem",
+                  background: `${isImageBroken ? "red" : ""}`,
+                }}
               >
-                <img
-                  src="https://www.github.com/unclebay143.png"
-                  alt="advicer-avatar"
-                  width="100%"
-                  height="100%"
-                />
+                {isImageBroken ? (
+                  "R"
+                ) : (
+                  <img
+                    src={`${JSON.parse(authorImageUrl)}`}
+                    alt={authorUsername.slice(0, 1)}
+                    width="100%"
+                    height="100%"
+                    onError={brokenImageAlt}
+                  />
+                )}
               </Avatar>
-              <p className="advice-category-tag">{adviceCategory}</p>
-
+              {/* )} */}
+              <p className="advice-category-tag">{category}</p>
               <CardHeader
-                title={adviceHeading}
-                subheader={`Posted: ${timeAgo(adviceDate)}`}
-                subheader={timeAgo(adviceDate)}
+                title={heading}
+                // subheader={`Posted: ${timeAgo(createdTime)}`}
+                subheader={`Given ${timeAgo(createdTime)}`}
+                // subheader={timeAgo(createdTime)}
               />
               <CardActions disableSpacing>
                 <div className="vote-wrap">
                   <ArrowUpwardOutlined />{" "}
-                  <span className="vote-count">{adviceUpvote}</span>
+                  <span className="vote-count">{upvotes}</span>
                 </div>
                 {/* share icon */}
                 <div className="vote-wrap">
@@ -66,7 +84,7 @@ export function AdviceCard({
                 </div>
                 <div className="vote-wrap">
                   <ArrowDownwardRounded />{" "}
-                  <span className="vote-count">{adviceDownvote}</span>
+                  <span className="vote-count">{downvotes}</span>
                 </div>
               </CardActions>
             </Card>

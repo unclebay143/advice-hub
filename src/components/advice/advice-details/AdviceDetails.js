@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { Button } from "@material-ui/core";
 import {
   ArrowDownward,
@@ -5,60 +7,94 @@ import {
   Bookmark,
   Comment,
 } from "@material-ui/icons";
-import React from "react";
-import { useParams } from "react-router";
 import "./advice-details.css";
+import { getAdviceDetails } from "../../../redux/advice/actions/advice.actions";
+import { useDispatch } from "react-redux";
+import { timeAgo } from "../../_helper/time/time";
+import { BubbleLoader } from "../../layouts/loader/Loader";
 
 export const AdviceDetails = () => {
-  const hasDescription = true;
   const { adviceId } = useParams();
+  const [adviceDetails, setAdviceDetails] = useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAdviceDetails(adviceId))
+      .then(({ data }) => {
+        setAdviceDetails(data.data[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return () => {
+      setAdviceDetails(null);
+    };
+  }, [adviceId, dispatch]);
+
+  // Show loader when fetching
+  if (adviceDetails === null) {
+    return <BubbleLoader />;
+  }
+
+  const {
+    heading,
+    description,
+    category,
+    authorUsername,
+    authorImageUrl,
+    __createdtime__,
+    upvotes,
+    downvotes,
+  } = adviceDetails || {};
+
+  const handleUpvoteRendering = (upvotes) => {
+    switch (upvotes) {
+      case 0:
+        return "No upvotes";
+      case 1:
+        return `${upvotes} upvote`;
+      case upvotes > 1:
+        return `${upvotes} upvotes`;
+      default:
+        return "No upvotes";
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="advice-details-container">
         <article className="advice-details">
           <div className="advice-heading">
-            <h1>
-              learn html, css and javascript basics before frameworks -{" "}
-              {adviceId}
-            </h1>
+            <h1>{heading}</h1>
           </div>
           <section className="author-info">
             <div className="author-image">
               <img
-                src="https://www.github.com/unclebay143.png"
-                alt="author avatar"
+                src={`${JSON.parse(authorImageUrl)}`}
+                alt={`${authorUsername}`}
               />
             </div>
-            <cite className="author-name">By: unclebigbay</cite>
+            <cite className="author-name">By: {authorUsername}</cite>
           </section>
 
           <section className="advice-description">
-            {hasDescription ? (
-              <p className="advice-description--text">
-                I am saying that you need to study html, css and javascript
-                basic to the fullest in order to have a better shift to
-                frameworks, check this link and study math too www.google.com I
-                am saying that you need to study html, css and javascript basic
-                to the fullest in order to have a better shift to frameworks,
-                check this link and study math too www.google.com am saying that
-                {/* you need to study html, css and javascript basic to the fullest
-                in order to have a better shift to frameworks, check this link
-                and study math too www.google.com am saying that you need to
-                study html, css and javascript basic to the fullest in order to
-                have a better shift to frameworks, check this link and study
-                math too www.google.com */}
-              </p>
+            {description ? (
+              <p className="advice-description--text">{description}</p>
             ) : (
               <p className="no-description">No description 😀</p>
             )}
           </section>
 
           <section className="advice-info">
-            <Button className="advice-tag">#Web development</Button>
-            <Button className="posted-date">Posted: July 20, 2021</Button>
+            <Button className="advice-tag">#{category}</Button>
+            <Button className="posted-date">
+              Posted: {timeAgo(__createdtime__)}
+            </Button>
           </section>
 
-          <section className="advice-upvote-counter">10 upvotes</section>
+          <section className="advice-upvote-counter">
+            {handleUpvoteRendering(upvotes)}
+          </section>
 
           <section className="advice-action">
             <Button className="advice-action--icon">

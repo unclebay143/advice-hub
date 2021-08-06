@@ -25,27 +25,23 @@ const adviceReducer = (state = INITIAL_STATE, action) => {
     case POPULAR_ADVICE:
       return {
         ...state,
-        advices: payload.sort((a, b) =>
-          Number(b.adviceUpvote - a.adviceUpvote)
-        ),
+        advices: state.advices.sort((a, b) => Number(b.upvotes - a.upvotes)),
       };
     case UPVOTED_ADVICE:
       return {
         ...state,
-        advices: payload.sort((a, b) =>
-          Number(b.adviceUpvote - a.adviceUpvote)
-        ),
+        advices: state.advices.sort((a, b) => Number(b.upvotes - a.upvotes)),
       };
     case RECENT_ADVICE:
       return {
         ...state,
-        advices: payload.sort((a, b) => b.adviceDate - a.adviceDate),
+        advices: state.advices.sort((a, b) => b.createdTime - a.createdTime),
       };
 
     case BOOKMARKED_ADVICE:
       return {
         ...state,
-        advices: payload.filter((advice) => advice.bookmarked === true),
+        advices: state.advices.filter((advice) => advice.bookmarked === true),
       };
 
     default:
