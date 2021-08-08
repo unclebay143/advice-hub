@@ -8,16 +8,36 @@ import {
   Comment,
 } from "@material-ui/icons";
 import "./advice-details.css";
-import { getAdviceDetails } from "../../../redux/advice/actions/advice.actions";
+import {
+  getAdviceDetails,
+  upvoteAdviceCard,
+} from "../../../redux/advice/actions/advice.actions";
 import { useDispatch } from "react-redux";
 import { timeAgo } from "../../_helper/time/time";
 import { BubbleLoader } from "../../layouts/loader/Loader";
+import { handleUpvoteRendering } from "../../_helper/votes/voterendering";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const AdviceDetails = () => {
+  const dispatch = useDispatch();
   const { adviceId } = useParams();
   const [adviceDetails, setAdviceDetails] = useState(null);
-  const dispatch = useDispatch();
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
+  const [hasUpvoted, setHasUpvoted] = useState(false);
+  const [numberOfUpvotes, setNumberOfUpvotes] = useState(0);
 
+  const {
+    heading,
+    description,
+    category,
+    authorUsername,
+    authorImageUrl,
+    __createdtime__,
+    upvotes,
+    // downvotes,
+  } = adviceDetails || {};
+
+  // Get advice info
   useEffect(() => {
     dispatch(getAdviceDetails(adviceId))
       .then(({ data }) => {
@@ -31,32 +51,49 @@ export const AdviceDetails = () => {
     };
   }, [adviceId, dispatch]);
 
+  // Check if the user has upvoted the post -author not included
+  useEffect(() => {
+    if (user && upvotes) {
+      // if the author username is the same as the current user, it cannot be upvoted -return false
+      const hasUpvotedStatus =
+        isAuthenticated &&
+        authorUsername !== user.nickname &&
+        upvotes.includes(user.nickname);
+
+      setNumberOfUpvotes(upvotes.length);
+
+      setHasUpvoted(hasUpvotedStatus);
+    }
+  }, [isAuthenticated, upvotes, user]);
+
   // Show loader when fetching
   if (adviceDetails === null) {
     return <BubbleLoader />;
   }
 
-  const {
-    heading,
-    description,
-    category,
-    authorUsername,
-    authorImageUrl,
-    __createdtime__,
-    upvotes,
-    downvotes,
-  } = adviceDetails || {};
-
-  const handleUpvoteRendering = (upvotes) => {
-    switch (upvotes) {
-      case 0:
-        return "No upvotes";
-      case 1:
-        return `${upvotes} upvote`;
-      case upvotes > 1:
-        return `${upvotes} upvotes`;
-      default:
-        return "No upvotes";
+  const handleUpvote = () => {
+    if (hasUpvoted) {
+      // Get user index
+      const userIndex = adviceDetails.upvotes.indexOf(user.nickname);
+      if (userIndex > -1) {
+        // Remove user from upvoters
+        upvotes.splice(userIndex, 1);
+      }
+      // Update the number of upvotes
+      setNumberOfUpvotes(upvotes.length);
+      setHasUpvoted(false);
+      user
+        ? dispatch(upvoteAdviceCard(adviceId, user.nickname))
+        : loginWithRedirect();
+    } else {
+      // Push the username into the upvoters array
+      upvotes.push(user.nickname);
+      // Update the number of upvotes
+      setNumberOfUpvotes(upvotes.length);
+      setHasUpvoted(true);
+      user
+        ? dispatch(upvoteAdviceCard(adviceId, user.nickname))
+        : loginWithRedirect();
     }
   };
 
@@ -93,11 +130,14 @@ export const AdviceDetails = () => {
           </section>
 
           <section className="advice-upvote-counter">
-            {handleUpvoteRendering(upvotes)}
+            {handleUpvoteRendering(numberOfUpvotes)}
           </section>
 
           <section className="advice-action">
-            <Button className="advice-action--icon">
+            <Button
+              className={`advice-action--icon ${hasUpvoted ? "upvoted" : ""}`}
+              onClick={() => handleUpvote()}
+            >
               <ArrowUpward /> &nbsp; upvote
             </Button>
             <Button className="advice-action--icon">

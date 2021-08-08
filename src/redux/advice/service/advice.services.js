@@ -7,6 +7,7 @@ import {
   ALL_ADVICE_URL,
   BASE_URL,
   CREATE_ADVICE_URL,
+  UPVOTE_ADVICE_URL,
 } from "./root-endpoints";
 
 // Registration service function
@@ -43,9 +44,11 @@ const createAdvice = async (
 };
 
 // Get ALL advice full details from db
-const fetchAdvices = async () => {
+const fetchAdvices = async (page, limit) => {
   try {
-    const response = await axios.get(BASE_URL + ALL_ADVICE_URL);
+    const response = await axios.get(
+      `${BASE_URL}/${ALL_ADVICE_URL}?page=${page}&limit=${limit}`
+    );
     return response;
   } catch (error) {
     return error;
@@ -65,11 +68,27 @@ const getAdviceDetails = async (adviceId) => {
   }
 };
 
+// Send upvote
+const upvoteAdviceCard = async (adviceId, username) => {
+  const payload = {
+    adviceId,
+    username,
+  };
+  try {
+    const response = await axios.post(BASE_URL + UPVOTE_ADVICE_URL, payload);
+    console.log(response);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
 // Export object of service functions
 const AdviceService = {
   createAdvice,
   getAdviceDetails,
   fetchAdvices,
+  upvoteAdviceCard,
 };
 
 export default AdviceService;

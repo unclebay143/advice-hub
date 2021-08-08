@@ -5,7 +5,10 @@ import { Button } from "@material-ui/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import { pageUrl } from "../../constant/pageurl";
 import { useHistory } from "react-router";
-import { createAdvice } from "../../../redux/advice/actions/advice.actions";
+import {
+  createAdvice,
+  fetchAdvices,
+} from "../../../redux/advice/actions/advice.actions";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +30,7 @@ export default function NewAdviceForm() {
   const { user, isAuthenticated, isLoading } = useAuth0();
   const history = useHistory();
   const dispatch = useDispatch();
+  const [submittingStatus, setsubmittingStatus] = useState("Git push");
 
   const [newAdvice, setNewAdvice] = useState({
     category: "",
@@ -60,29 +64,42 @@ export default function NewAdviceForm() {
   // Form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Ensure user selects from the right options and not empty form
+    // Ensure user selects from the right options and does not submit an empty form
     if (
       newAdvice.category.toLowerCase() === "choose" ||
       newAdvice.category.toLowerCase() === ""
     ) {
       document.querySelector("#category").style.borderColor = "yellow";
+      setsubmittingStatus("Resolve conflict");
+
       return;
     } else if (!newAdvice.heading) {
       document.querySelector("#heading").style.borderColor = "yellow";
+      setsubmittingStatus("Resolve conflict");
+
       return;
     } else {
       document.querySelector("#category").style.borderColor = "none";
+      setsubmittingStatus("Enumerating Objects 61%, done");
 
       // Send to backend
       dispatch(createAdvice(newAdvice))
         .then(({ data }) => {
           const { message, id } = data;
           if (message === "success") {
-            history.push(`/advice/${id}`);
+            dispatch(fetchAdvices())
+              .then((res) => {
+                history.push(`/advice/${id}`);
+              })
+              .catch((error) => console.log(error));
           }
+          setsubmittingStatus("Done, 100%");
+
+          // setsubmittingStatus("Git push");
         })
         .catch((error) => {
           console.log(error);
+          setsubmittingStatus("Git push");
         });
     }
   };
@@ -113,7 +130,7 @@ export default function NewAdviceForm() {
         <div className="input-wrapper">
           <label>Give A Short Advice</label>
           <input
-            maxLength="60"
+            // maxLength="60"
             placeholder="Advice title"
             type="text"
             name="heading"
@@ -135,7 +152,7 @@ export default function NewAdviceForm() {
         </div>
         <div className="input-wrapper btn-wrapper">
           <Button variant="contained" color="secondary" type="submit">
-            Git push
+            {submittingStatus}
           </Button>
         </div>
       </form>

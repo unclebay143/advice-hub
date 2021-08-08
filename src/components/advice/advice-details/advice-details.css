@@ -114,6 +114,9 @@
   display: none;
 }
 
+.advice-action--icon.upvoted {
+  color: var(--app-text-primary);
+}
 /* media query */
 
 @media (min-width: 700px) {

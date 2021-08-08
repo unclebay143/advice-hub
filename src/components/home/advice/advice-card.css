@@ -1,6 +1,11 @@
 /* FIX THE HEIGHT OF CARD WITH COUNT AND NON WITH COUNT */
 /* make the counter green when the user upvote or downvote */
 
+/* remove scroll from infinite component style */
+.infinite-scroll-component__outerdiv .infinite-scroll-component {
+  overflow: hidden !important;
+}
+
 .first-contributor--alert {
   font-size: 1rem;
   color: var(--app-text-tertiary);
@@ -30,6 +35,13 @@
 .advice-card {
   padding: 2rem;
   display: flex;
+}
+
+section.img-bookmark {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 1rem;
 }
 
 /* Whole card */
@@ -148,6 +160,7 @@
   color: var(--app-text-tertiary);
   font-size: 0.8rem;
   padding: 0rem 0.3rem;
+  letter-spacing: 2px;
 }
 
 .vote-wrap,
@@ -159,7 +172,20 @@
   font-weight: 900;
 }
 
+/* actions */
+
 .bookmark-wrap .bookmarked {
+  color: var(--app-text-primary);
+}
+
+.vote-wrap.upvoted .icon,
+.vote-wrap.upvoted .vote-count {
+  color: var(--app-text-primary);
+}
+
+.vote-wrap.downvoted .icon,
+.vote-wrap.downvoted .vote-count {
+  color: yellow;
   color: var(--app-text-primary);
 }
 
