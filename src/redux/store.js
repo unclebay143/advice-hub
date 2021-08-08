@@ -6,8 +6,8 @@ const middleware = [thunk];
 
 //  Middleware to use when in development mode (redux dev tool)
 const devCompose = compose(
-  applyMiddleware(...middleware),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  applyMiddleware(...middleware)
+  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 // Middleware to apply use when in production mode (redux dev tool causing issues)

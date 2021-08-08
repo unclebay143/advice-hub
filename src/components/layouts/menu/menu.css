@@ -9,6 +9,10 @@
   padding: 0.8rem;
 }
 
+.active-sort button {
+  color: white;
+}
+
 .menu-btn .MuiButton-root:hover {
   text-decoration: none;
   background-color: rgba(0, 0, 0, 0.3);

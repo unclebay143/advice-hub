@@ -1,13 +1,15 @@
+import _ from "lodash";
 import {
   BOOKMARKED_ADVICE,
   LOAD_ADVICES,
-  POPULAR_ADVICE,
+  OLDEST_ADVICE,
   RECENT_ADVICE,
   UPVOTED_ADVICE,
 } from "../../types/index";
 
 const INITIAL_STATE = {
-  advices: null,
+  advices: [],
+  sortBy: "recent",
 };
 
 // redux reducer function
@@ -18,34 +20,30 @@ const adviceReducer = (state = INITIAL_STATE, action) => {
   switch (type) {
     case LOAD_ADVICES:
       return {
-        // show popular advice
         ...state,
-        advices: payload,
-      };
-    case POPULAR_ADVICE:
-      return {
-        ...state,
-        advices: payload.sort((a, b) =>
-          Number(b.adviceUpvote - a.adviceUpvote)
-        ),
-      };
-    case UPVOTED_ADVICE:
-      return {
-        ...state,
-        advices: payload.sort((a, b) =>
-          Number(b.adviceUpvote - a.adviceUpvote)
-        ),
+        advices: _.uniqBy([...state.advices, ...payload], "id"), // remove weird duplicates
+        // advices: [...state.advices, ...payload],
       };
     case RECENT_ADVICE:
       return {
         ...state,
-        advices: payload.sort((a, b) => b.adviceDate - a.adviceDate),
+        sortBy: "recent",
+      };
+    case OLDEST_ADVICE:
+      return {
+        ...state,
+        sortBy: "oldest",
+      };
+    case UPVOTED_ADVICE:
+      return {
+        ...state,
+        sortBy: "upvotes",
       };
 
     case BOOKMARKED_ADVICE:
       return {
         ...state,
-        advices: payload.filter((advice) => advice.bookmarked === true),
+        sortBy: "bookmark",
       };
 
     default:

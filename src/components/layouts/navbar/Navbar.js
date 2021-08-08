@@ -18,10 +18,10 @@ export const Navbar = () => {
   return (
     <header>
       <Card>
-        <Link to={pageUrl.HOMEPAGE} className="brand no-decoration">
+        <a href={"/recent"} className="brand no-decoration">
           AdviceHub <BubbleChart />{" "}
           {theme === "light" && <p>Light mode (beta)</p>}
-        </Link>
+        </a>
 
         <div className="nav-right">
           {isAuthenticated && !isLoading ? (
@@ -66,7 +66,7 @@ export const Navbar = () => {
           ) : (
             <React.Fragment>
               <div className="auth-btn">
-                <Button>Signup</Button>
+                <Button onClick={() => loginWithRedirect()}>Signup</Button>
                 <Button onClick={() => loginWithRedirect()}>Login</Button>
               </div>
             </React.Fragment>
