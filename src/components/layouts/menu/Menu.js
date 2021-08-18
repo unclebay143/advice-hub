@@ -10,17 +10,36 @@ import {
 // import { dummyAdvice } from "../../home/advice/Advice";
 import { Category } from "../category/Category";
 import "./menu.css";
-import { fetchAdvices } from "../../../redux/advice/actions/advice.actions";
+import {
+  fetchAdvices,
+  fetchBookmarkedAdvices,
+} from "../../../redux/advice/actions/advice.actions";
 import { Link, NavLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const Menu = () => {
   const dispatch = useDispatch();
   const { advices } = useSelector((state) => state.advices);
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
 
   const handleSelection = (actionType) => {
     dispatch(fetchAdvices())
       .then((res) => {
         dispatch({ type: actionType });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleFetchBookmarks = (actionType) => {
+    if (!isAuthenticated) {
+      return loginWithRedirect();
+    }
+    dispatch(fetchBookmarkedAdvices(user.nickname))
+      .then((res) => {
+        console.log(res);
+        dispatch({ type: actionType, payload: res.data });
       })
       .catch((error) => {
         console.log(error);
@@ -64,7 +83,7 @@ export const Menu = () => {
               activeClassName="active-sort"
               to="bookmarks"
             >
-              <Button onClick={() => handleSelection(BOOKMARKED_ADVICE)}>
+              <Button onClick={() => handleFetchBookmarks(BOOKMARKED_ADVICE)}>
                 Bookmarks
               </Button>
             </NavLink>

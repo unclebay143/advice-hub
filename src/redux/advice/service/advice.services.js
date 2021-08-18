@@ -6,7 +6,9 @@ import {
   ADVICE_DETAILS_URL,
   ALL_ADVICE_URL,
   BASE_URL,
+  BOOKMARKED_ADVICE_URL,
   CREATE_ADVICE_URL,
+  GET_BOOKMARKED_ADVICE_URL,
   UPVOTE_ADVICE_URL,
 } from "./root-endpoints";
 
@@ -83,12 +85,49 @@ const upvoteAdviceCard = async (adviceId, username) => {
   }
 };
 
+// Send bookmark
+const bookmarkAdviceCard = async (adviceId, username) => {
+  const payload = {
+    adviceId,
+    username,
+  };
+  try {
+    const response = await axios.post(
+      BASE_URL + BOOKMARKED_ADVICE_URL,
+      payload
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Get user bookmarks
+const getBookmarkAdviceCard = async (username) => {
+  const payload = {
+    username,
+  };
+  try {
+    const response = await axios.post(
+      BASE_URL + GET_BOOKMARKED_ADVICE_URL,
+      payload
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
 // Export object of service functions
 const AdviceService = {
   createAdvice,
   getAdviceDetails,
   fetchAdvices,
   upvoteAdviceCard,
+  bookmarkAdviceCard,
+  getBookmarkAdviceCard,
 };
 
 export default AdviceService;

@@ -3,22 +3,35 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BubbleLoader } from "../../layouts/loader/Loader";
 import { AdviceCard } from "./AdviceCard";
-import { fetchAdvices } from "./../../../redux/advice/actions/advice.actions";
+import {
+  fetchAdvices,
+  fetchBookmarkedAdvices,
+} from "./../../../redux/advice/actions/advice.actions";
 import { pageUrl } from "../../constant/pageurl";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CardSkeleton } from "../../layouts/skeleton/CardSkeleton";
 import { EMPTY_ADVICES } from "../../../redux/types";
 
 export const Advice = () => {
   const dispatch = useDispatch();
+  const { id } = useParams();
+  const history = useHistory();
 
-  const { advices, sortBy } = useSelector((state) => state.advices);
+  const { advices, bookMarked } = useSelector((state) => state.advices);
+  const { user, isAuthenticated } = useAuth0();
+  const [sortBy, setsortBy] = useState(id);
+
   // const [advices, setadvices] = useState([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    setsortBy(id);
+  }, [id]);
 
   const fetchMoreAdvice = () => {
     setLoading(true);
@@ -38,6 +51,12 @@ export const Advice = () => {
     sortAdvices();
   }, []);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchBookmarkedAdvices(user.nickname));
+    }
+  }, [isAuthenticated]);
+
   // if (advices === null) {
   //   return <BubbleLoader text={"welcome... 👋"} />;
   // }
@@ -56,24 +75,43 @@ export const Advice = () => {
   //   );
   // }
 
-  const sortAdvices = () => {
-    if (sortBy === "recent") {
-      return advices.sort((a, b) => {
-        return b.__createdtime__ - a.__createdtime__;
-      });
-    } else if (sortBy === "oldest") {
-      return advices.sort((a, b) => {
-        return a.__createdtime__ - b.__createdtime__;
-      });
-    } else if (sortBy === "upvotes") {
-      return advices.sort((a, b) => {
-        return Number(b.upvotes.length - a.upvotes.length);
-      });
-    } else if (sortBy === "bookmark") {
-      return advices;
-      // console.log(advices.filter((a) => a.bookmarked === false));
+  console.log(sortBy, id);
+
+  const sortAdvices = (data) => {
+    if (data) {
+      if (sortBy === "recent") {
+        return data.sort((a, b) => {
+          return b.__createdtime__ - a.__createdtime__;
+        });
+      }
+      if (sortBy === "oldest") {
+        return data.sort((a, b) => {
+          return a.__createdtime__ - b.__createdtime__;
+        });
+      }
+      if (sortBy === "upvoted") {
+        return data.sort((a, b) => {
+          return Number(b.upvotes.length - a.upvotes.length);
+        });
+      }
     }
+    //  else {
+    // history.push("/recent");
+    // return advices.sort((a, b) => {
+    //   return b.__createdtime__ - a.__createdtime__;
+    // });
+    // }
   };
+
+  if (sortBy === "bookmarks" && isAuthenticated && bookMarked.length === 0) {
+    return (
+      <div className="advice-card no-bookmark-wrap">
+        <p className="no-bookmark">No bookmark yet 😀</p>
+      </div>
+    );
+  }
+
+  console.log(bookMarked);
 
   return (
     <React.Fragment>

@@ -25,8 +25,8 @@ function App() {
       <Switch>
         <Route exact path={pageUrl.ADVICE_DETAILS} component={AdviceDetails} />
         <Route exact path={pageUrl.ADVICE_FORM} component={NewAdviceForm} />
-        <Route exact path={pageUrl.HOMEPAGE} component={HomePage} />
         <Route exact path={pageUrl.HOMEPAGE_SORTING} component={HomePage} />
+        <Route exact path={pageUrl.HOMEPAGE} component={HomePage} />
       </Switch>
     </div>
   );

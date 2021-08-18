@@ -10,6 +10,7 @@ import {
 const INITIAL_STATE = {
   advices: [],
   sortBy: "recent",
+  bookMarked: [],
 };
 
 // redux reducer function
@@ -43,7 +44,7 @@ const adviceReducer = (state = INITIAL_STATE, action) => {
     case BOOKMARKED_ADVICE:
       return {
         ...state,
-        sortBy: "bookmark",
+        bookMarked: payload,
       };
 
     default:

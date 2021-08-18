@@ -60,13 +60,15 @@ export function AdviceCard({
         authorUsername !== user.nickname &&
         upvotes.includes(user.nickname);
 
-      setNumberOfUpvotes(upvotes.length);
-
       setHasUpvoted(hasUpvotedStatus);
     }
+    setNumberOfUpvotes(upvotes.length);
   }, [isAuthenticated, upvotes, user]);
 
   const handleUpvote = () => {
+    if (!isAuthenticated) {
+      return loginWithRedirect();
+    }
     if (hasUpvoted) {
       // Get user index
       const userIndex = upvotes.indexOf(user.nickname);
@@ -94,125 +96,130 @@ export function AdviceCard({
 
   // Upvote count message
   function upvoterCounter() {
-    if (user) {
-      const withoutCurrentUser = upvotes.filter(
-        (voters) => voters !== user.nickname
-      );
-      switch (true) {
-        // you
-        case hasUpvoted && upvotes.length === 1:
-          return `upvoted by you`;
+    const withoutCurrentUser =
+      user && upvotes.filter((voters) => voters !== user.nickname);
+    switch (true) {
+      // you
+      case hasUpvoted && upvotes.length === 1:
+        return `upvoted by you`;
 
-        // current_user and user_1
-        case hasUpvoted && upvotes.length === 2:
-          return `upvoted by you, and ${withoutCurrentUser[0]}`;
+      // current_user and user_1
+      case hasUpvoted && upvotes.length === 2:
+        return `upvoted by you, and ${withoutCurrentUser[0]}`;
 
-        // current_user , user_1 and user 2
-        case hasUpvoted && upvotes.length > 2:
-          return `you, ${withoutCurrentUser[0]} and ${
-            withoutCurrentUser.length - 1
-          } others`;
+      // current_user , user_1 and user 2
+      case hasUpvoted && upvotes.length > 2:
+        return `you, ${withoutCurrentUser[0]} and ${
+          withoutCurrentUser.length - 1
+        } others`;
 
-        case upvotes.length === 1:
-          return `upvoted by ${upvotes[0]}`;
-        default:
-          return `upvoted by ${upvotes[0] || upvotes[1]} and ${
-            upvotes.length - 1
-          } others`;
-      }
+      case upvotes.length === 1:
+        return `upvoted by ${upvotes[0]}`;
+
+      default:
+        return `upvoted by ${upvotes[0] || upvotes[1]} and ${
+          upvotes.length - 1
+        } others`;
     }
   }
 
   return (
     <React.Fragment>
       <Grid item xs={12} sm={6} md={4} lg={3}>
-        <Card>
-          <section className="img-bookmark">
-            <Avatar
-              aria-label="recipe"
-              style={{
-                margin: "1rem 1rem 0.45rem 1rem",
-                background: `${isImageBroken ? "red" : ""}`,
-              }}
-            >
-              {isImageBroken ? (
-                "R"
-              ) : (
-                <img
-                  src={`${JSON.parse(authorImageUrl)}`}
-                  alt={authorUsername.slice(0, 1)}
-                  width="100%"
-                  height="100%"
-                  onError={brokenImageAlt}
-                />
-              )}
-            </Avatar>
-            <abbr title="Bookmark Advice">
-              <div className="bookmark-icon">
-                {/* bookmark icon */}
-                <BookmarkBorderOutlined
-                  className={`${bookmarked ? "bookmarked" : ""}`}
-                />
-              </div>
-            </abbr>
-          </section>
-          <p className="advice-category-tag">{category}</p>
-          <Link to={`advice/${adviceId}`} className="no-decoration">
-            <CardHeader
-              title={`${heading.toString().slice(0, 50)}${
-                heading.length > 50 ? "..." : ""
-              }`}
-              subheader={`Given ${timeAgo(createdTime)}`}
-            />
-          </Link>
-
-          <CardActions disableSpacing>
-            <abbr title="Upvote Advice">
-              <div
-                className={`vote-wrap ${hasUpvoted ? "upvoted" : ""}`}
-                onClick={() => handleUpvote()}
+        <abbr
+          title={`Created by ${authorUsername.toUpperCase()}`}
+          className="no-decoration"
+        >
+          <Card>
+            <section className="img-bookmark">
+              <Avatar
+                aria-label="recipe"
+                style={{
+                  margin: "1rem 1rem 0.45rem 1rem",
+                  background: `${isImageBroken ? "red" : ""}`,
+                }}
               >
-                <ArrowUpwardOutlined className="icon" />{" "}
-                {/* Show the upvoters on hover */}
-                <abbr title={upvoterCounter()}>
-                  <span className="vote-count">
-                    {handleVotes(numberOfUpvotes)}
-                  </span>
-                </abbr>
-              </div>
-            </abbr>
-            {/* comment icon */}
-            <abbr title="Comment on this Advice">
-              <div className="comment-wrap">
-                <Chat className="comment-icon" />
-              </div>
-            </abbr>
-            {/* share icon */}
-            <abbr title="Share to Twitter" className="no-decoration">
-              <a
-                href={`https://twitter.com/intent/tweet?text=${shareAdviceCardMessage}`}
-                rel="noreffer"
-                target="_blank"
-                className="no-decoration"
-              >
-                <div className="vote-wrap">
-                  <ShareOutlined />
-                  <span className="vote-count">&nbsp;</span>
+                {isImageBroken ? (
+                  "R"
+                ) : (
+                  <abbr title={`${authorUsername}`}>
+                    <img
+                      src={`${JSON.parse(authorImageUrl)}`}
+                      alt={authorUsername.slice(0, 1)}
+                      width="100%"
+                      height="100%"
+                      onError={brokenImageAlt}
+                    />
+                  </abbr>
+                )}
+              </Avatar>
+              <abbr title="Bookmark Advice" className="no-decoration">
+                <div className="bookmark-icon">
+                  {/* bookmark icon */}
+                  <BookmarkBorderOutlined
+                    className={`${bookmarked ? "bookmarked" : ""}`}
+                  />
                 </div>
-              </a>
-            </abbr>
-            <div
-              className={`vote-wrap ${
-                upvotes.length - theAuthorUpvote > 0 ? "downvoted" : ""
-              }`}
-            >
-              <ArrowDownwardRounded className="icon" />{" "}
-              <span className="vote-count">
-                {handleVotes(downvotes.length)}
-              </span>
-            </div>
-          </CardActions>
-        </Card>
+              </abbr>
+            </section>
+            <p className="advice-category-tag">{category}</p>
+            <Link to={`advice/${adviceId}`} className="no-decoration">
+              <CardHeader
+                title={`${heading.toString().slice(0, 50)}${
+                  heading.length > 50 ? "..." : ""
+                }`}
+                subheader={`Given ${timeAgo(createdTime)}`}
+              />
+            </Link>
+
+            <CardActions disableSpacing>
+              <abbr title="Upvote Advice" className="no-decoration">
+                <div
+                  className={`vote-wrap ${hasUpvoted ? "upvoted" : ""}`}
+                  onClick={() => handleUpvote()}
+                >
+                  <ArrowUpwardOutlined className="icon" />{" "}
+                  {/* Show the upvoters on hover */}
+                  <abbr title={upvoterCounter()} className="no-decoration">
+                    <span className="vote-count">
+                      {handleVotes(numberOfUpvotes)}
+                    </span>
+                  </abbr>
+                </div>
+              </abbr>
+              {/* comment icon */}
+              <abbr title="Comment on this Advice" className="no-decoration">
+                <div className="comment-wrap">
+                  <Chat className="comment-icon" />
+                </div>
+              </abbr>
+              {/* share icon */}
+              <abbr title="Share to Twitter" className="no-decoration">
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${shareAdviceCardMessage}`}
+                  rel="noreffer"
+                  target="_blank"
+                  className="no-decoration"
+                >
+                  <div className="vote-wrap">
+                    <ShareOutlined />
+                    <span className="vote-count">&nbsp;</span>
+                  </div>
+                </a>
+              </abbr>
+              <div
+                className={`vote-wrap ${
+                  upvotes.length - theAuthorUpvote > 0 ? "downvoted" : ""
+                }`}
+              >
+                <ArrowDownwardRounded className="icon" />{" "}
+                <span className="vote-count">
+                  {handleVotes(downvotes.length)}
+                </span>
+              </div>
+            </CardActions>
+          </Card>
+        </abbr>
       </Grid>
     </React.Fragment>
   );

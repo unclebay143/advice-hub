@@ -1,6 +1,7 @@
 export const pageUrl = {
   HOMEPAGE: "/",
-  HOMEPAGE_SORTING: "/:sortBY",
+  HOMEPAGE_SORTING: "/:id",
+  BOOKMARKS: "/bookmarks",
   ADVICE_DETAILS: "/advice/:adviceId",
   ADVICE_FORM: "/create_advice",
   LOGIN_PAGE: "/login",
