@@ -18,10 +18,10 @@ export const Navbar = () => {
   return (
     <header>
       <Card>
-        <a href={"/recent"} className="brand no-decoration">
+        <Link to={"/recent"} className="brand no-decoration">
           AdviceHub <BubbleChart />{" "}
           {theme === "light" && <p>Light mode (beta)</p>}
-        </a>
+        </Link>
 
         <div className="nav-right">
           {isAuthenticated && !isLoading ? (

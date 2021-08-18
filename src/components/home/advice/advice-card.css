@@ -173,8 +173,19 @@ section.img-bookmark {
 }
 
 /* actions */
-
-.bookmark-wrap .bookmarked {
+.no-bookmark-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.no-bookmark {
+  text-align: center;
+  color: var(--app-text-primary);
+  font-size: 1.3rem;
+  opacity: 0.7;
+  padding-top: 6rem;
+}
+.bookmark-icon .bookmarked {
   color: var(--app-text-primary);
 }
 

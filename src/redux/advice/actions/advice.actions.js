@@ -1,4 +1,4 @@
-import { LOAD_ADVICES } from "../../types";
+import { BOOKMARKED_ADVICE, LOAD_ADVICES } from "../../types";
 import AdviceService from "../service/advice.services";
 
 // Registration service function
@@ -44,9 +44,29 @@ export const getAdviceDetails = (adviceId) => async (dispatch) => {
 
 // Upvote function
 export const upvoteAdviceCard = (adviceId, username) => async (dispatch) => {
-  console.log("here");
   try {
     const response = await AdviceService.upvoteAdviceCard(adviceId, username);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Bookmark function
+export const bookmarkAdviceCard = (adviceId, username) => async (dispatch) => {
+  try {
+    const response = await AdviceService.bookmarkAdviceCard(adviceId, username);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Bookmark function
+export const fetchBookmarkedAdvices = (username) => async (dispatch) => {
+  try {
+    const response = await AdviceService.getBookmarkAdviceCard(username);
+    dispatch({ type: BOOKMARKED_ADVICE, payload: response.data });
     return response;
   } catch (error) {
     return error;
