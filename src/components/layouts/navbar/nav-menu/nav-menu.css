@@ -11,7 +11,7 @@
   justify-content: flex-end;
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  /* overflow: scroll; */
   position: absolute;
   z-index: 9;
   top: 3rem;

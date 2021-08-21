@@ -72,6 +72,7 @@ header .MuiCard-root .nav-right--img {
 }
 @media (min-width: 900px) {
   header .MuiCard-root {
+    /* padding: 2rem 4rem; */
     padding: 0 4rem;
   }
 

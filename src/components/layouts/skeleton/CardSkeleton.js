@@ -12,14 +12,14 @@ import {
   ShareOutlined,
 } from "@material-ui/icons";
 
-export const CardSkeleton = () => {
-  const fakeArray = new Array(8).fill({});
+export const CardSkeleton = ({ num }) => {
+  const fakeArray = new Array(num).fill({});
   const [fakeAdvices, setFakeAdvices] = useState(fakeArray);
   return (
     <React.Fragment>
       {fakeAdvices.map((advices) => {
         return (
-          <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={Math.random()}>
             <Card>
               <Skeleton
                 animation="wave"

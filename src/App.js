@@ -6,6 +6,9 @@ import { Navbar } from "./components/layouts/navbar/Navbar";
 import { pageUrl } from "./components/constant/pageurl";
 import { Route, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
+import React, { lazy, Suspense } from "react";
+import { Profile } from "./components/profile/Profile";
+// const { Profile } = lazy(() => import("./components/profile/Profile"));
 
 function App() {
   const { theme, nav_menu_open } = useSelector((state) => state.appLayout);
@@ -19,13 +22,14 @@ function App() {
   return (
     <div
       className={`App ${theme === "light" ? "light" : "default--dark-mode"}
-      }`}
+    }`}
     >
       <Navbar />
       <Switch>
         <Route exact path={pageUrl.ADVICE_DETAILS} component={AdviceDetails} />
         <Route exact path={pageUrl.ADVICE_FORM} component={NewAdviceForm} />
-        <Route exact path={pageUrl.HOMEPAGE_SORTING} component={HomePage} />
+        <Route exact path={pageUrl.ADVICE_SORTING} component={HomePage} />
+        <Route exact path={pageUrl.PROFILE_PAGE} component={Profile} />
         <Route exact path={pageUrl.HOMEPAGE} component={HomePage} />
       </Switch>
     </div>

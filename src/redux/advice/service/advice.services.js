@@ -3,13 +3,16 @@ import axios from "axios";
 
 // Endpoints
 import {
-  ADVICE_DETAILS_URL,
-  ALL_ADVICE_URL,
   BASE_URL,
-  BOOKMARKED_ADVICE_URL,
+  ALL_ADVICE_URL,
+  ADVICE_DETAILS_URL,
   CREATE_ADVICE_URL,
   GET_BOOKMARKED_ADVICE_URL,
+  BOOKMARKED_ADVICE_URL,
+  REMOVE_BOOKMARKED_ADVICE_URL,
   UPVOTE_ADVICE_URL,
+  DOWNVOTE_ADVICE_URL,
+  USER_PROFILE_URL,
 } from "./root-endpoints";
 
 // Registration service function
@@ -18,7 +21,8 @@ const createAdvice = async (
   description,
   category,
   authorUsername,
-  authorImageUrl
+  authorImageUrl,
+  author_id
 ) => {
   const payload = {
     heading,
@@ -26,6 +30,7 @@ const createAdvice = async (
     category,
     authorUsername,
     authorImageUrl,
+    author_id,
   };
 
   // Async/Await
@@ -78,7 +83,20 @@ const upvoteAdviceCard = async (adviceId, username) => {
   };
   try {
     const response = await axios.post(BASE_URL + UPVOTE_ADVICE_URL, payload);
-    console.log(response);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Send downvote
+const downvoteAdviceCard = async (adviceId, username) => {
+  const payload = {
+    adviceId,
+    username,
+  };
+  try {
+    const response = await axios.post(BASE_URL + DOWNVOTE_ADVICE_URL, payload);
     return response;
   } catch (error) {
     return error;
@@ -96,7 +114,23 @@ const bookmarkAdviceCard = async (adviceId, username) => {
       BASE_URL + BOOKMARKED_ADVICE_URL,
       payload
     );
-    console.log(response);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// remove bookmark
+const removeAdviceCardFromBookmark = async (adviceId, username) => {
+  const payload = {
+    adviceId,
+    username,
+  };
+  try {
+    const response = await axios.post(
+      BASE_URL + REMOVE_BOOKMARKED_ADVICE_URL,
+      payload
+    );
     return response;
   } catch (error) {
     return error;
@@ -113,7 +147,19 @@ const getBookmarkAdviceCard = async (username) => {
       BASE_URL + GET_BOOKMARKED_ADVICE_URL,
       payload
     );
-    console.log(response);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// User profile
+const fetchUserProfile = async (userName) => {
+  const payload = {
+    userName,
+  };
+  try {
+    const response = await axios.post(BASE_URL + USER_PROFILE_URL, payload);
     return response;
   } catch (error) {
     return error;
@@ -126,8 +172,11 @@ const AdviceService = {
   getAdviceDetails,
   fetchAdvices,
   upvoteAdviceCard,
+  downvoteAdviceCard,
   bookmarkAdviceCard,
+  removeAdviceCardFromBookmark,
   getBookmarkAdviceCard,
+  fetchUserProfile,
 };
 
 export default AdviceService;

@@ -38,6 +38,7 @@ export default function NewAdviceForm() {
     description: "",
     authorUsername: null,
     authorImageUrl: null,
+    author_id: null,
   });
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export default function NewAdviceForm() {
         ...newAdvice,
         authorUsername: user.nickname,
         authorImageUrl: JSON.stringify(user.picture),
+        author_id: user.sub,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,9 +124,11 @@ export default function NewAdviceForm() {
             required
           >
             <option value="choose">Choose</option>
-            <option value="product management">Product management</option>
+            <option value="general">General</option>
+            <option value="product-management">Product management</option>
             <option value="ui-ux">UI-UX</option>
-            <option value="web developement">Web development</option>
+            <option value="web-development">Web development</option>
+            <option value="soft-skills">Soft Skills</option>
           </select>
         </div>
         <div className="input-wrapper">

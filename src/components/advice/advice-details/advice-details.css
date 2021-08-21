@@ -75,7 +75,19 @@
   color: var(--app-text-tertiary);
   text-transform: capitalize;
   font-weight: 700;
-  font-size: 0.74rem;
+  /* font-size: 0.74rem; */
+}
+
+.advice-action .downvote-icon {
+  display: none;
+}
+
+.advice-action--icon.upvoted {
+  color: var(--app-text-primary);
+}
+
+.advice-action--icon.bookmarked {
+  color: var(--app-text-primary);
 }
 
 /* advice description */
@@ -110,13 +122,6 @@
   text-transform: capitalize;
 }
 
-.advice-action .downvote-icon {
-  display: none;
-}
-
-.advice-action--icon.upvoted {
-  color: var(--app-text-primary);
-}
 /* media query */
 
 @media (min-width: 700px) {

@@ -10,20 +10,19 @@ import {
   ArrowUpwardOutlined,
   BookmarkBorderOutlined,
   Chat,
-  ChatBubbleOutlineOutlined,
-  CommentRounded,
-  CommentSharp,
-  ModeComment,
   ShareOutlined,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { timeAgo } from "../../_helper/time/time";
 import { handleVotes } from "../../_helper/votes/voterendering";
 import { useAuth0 } from "@auth0/auth0-react";
-import { upvoteAdviceCard } from "../../../redux/advice/actions/advice.actions";
+import {
+  bookmarkAdviceCard,
+  downvoteAdviceCard,
+  removeAdviceCardFromBookmark,
+  upvoteAdviceCard,
+} from "../../../redux/advice/actions/advice.actions";
 import { useDispatch } from "react-redux";
-
-/* Removed the author username from upvotes -add to have 1 upvote for every new advice */
 
 export function AdviceCard({
   createdTime,
@@ -31,24 +30,27 @@ export function AdviceCard({
   upvotes,
   downvotes,
   category,
+  author_id,
   authorImageUrl,
   authorUsername,
   adviceId,
+  bookMarked,
 }) {
-  const bookmarked = false; // keep the id of the user bookmarks advice then check it here and use boolean
-  const [isImageBroken, setIsImageBroken] = useState(false);
-  const theAuthorUpvote = 1;
-  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
-
-  const [hasUpvoted, setHasUpvoted] = useState(false);
-  const [numberOfUpvotes, setNumberOfUpvotes] = useState(0);
   const dispatch = useDispatch();
+  const [hasUpvoted, setHasUpvoted] = useState(false);
+  const [hasDownvoted, setHasDownvoted] = useState(false);
+  const [numberOfUpvotes, setNumberOfUpvotes] = useState(0);
+  const [numberOfDownvotes, setNumberOfDownvotes] = useState(0);
+  const [isBookedMarked, setIsBookMarked] = useState(bookMarked);
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
+  const [isImageBroken, setIsImageBroken] = useState(false);
 
-  // Handle Broken image
+  // Handle Broken image - this replace image with username first letter
   const brokenImageAlt = () => {
     setIsImageBroken(true);
   };
 
+  // Abbr text on hover
   const shareAdviceCardMessage = `${heading} -By: ${authorUsername}`;
 
   // Check if the user has upvoted the post -author not included
@@ -59,16 +61,40 @@ export function AdviceCard({
         isAuthenticated &&
         authorUsername !== user.nickname &&
         upvotes.includes(user.nickname);
-
+      //set user upvote status
       setHasUpvoted(hasUpvotedStatus);
     }
+    // the length of upvoters is the number of upvotes 🤟
     setNumberOfUpvotes(upvotes.length);
-  }, [isAuthenticated, upvotes, user]);
 
+    if (user && downvotes) {
+      // if the author username is the same as the current user, it cannot be upvoted -return false
+      const hasDownvotedStatus =
+        isAuthenticated &&
+        authorUsername !== user.nickname &&
+        downvotes.includes(user.nickname);
+
+      //set user downvote status
+      setHasDownvoted(hasDownvotedStatus);
+    }
+
+    // the length of downvoters is the number of upvotes 🤟
+    setNumberOfDownvotes(downvotes.length);
+  }, [isAuthenticated, upvotes, downvotes, user, authorUsername]);
+
+  // Upvote function
   const handleUpvote = () => {
+    // Login before upvoting
     if (!isAuthenticated) {
       return loginWithRedirect();
     }
+
+    // Prevent author from upvoting 🤷‍♀️
+    if (user.nickname === authorUsername) {
+      return;
+    }
+
+    // 👍
     if (hasUpvoted) {
       // Get user index
       const userIndex = upvotes.indexOf(user.nickname);
@@ -94,10 +120,50 @@ export function AdviceCard({
     }
   };
 
+  // DownVote function
+  const handleDownvote = () => {
+    if (!isAuthenticated) {
+      return loginWithRedirect();
+    }
+
+    // Prevent author from downvoting 🤷‍♂️
+    if (user.nickname === authorUsername) {
+      return;
+    }
+
+    // 👎
+    if (hasDownvoted) {
+      // Get user index
+      const userIndex = downvotes.indexOf(user.nickname);
+      if (userIndex > -1) {
+        // Remove user from downvoters
+        downvotes.splice(userIndex, 1);
+      }
+      // Update the number of downvotes
+      setNumberOfDownvotes(downvotes.length);
+      setHasDownvoted(false);
+      user
+        ? dispatch(downvoteAdviceCard(adviceId, user.nickname))
+        : loginWithRedirect();
+    } else {
+      // Push the username into the downvoters array
+      downvotes.push(user.nickname);
+      // Update the number of downvotes
+      setNumberOfDownvotes(downvotes.length);
+      setHasDownvoted(true);
+      user
+        ? dispatch(downvoteAdviceCard(adviceId, user.nickname))
+        : loginWithRedirect();
+    }
+  };
+
   // Upvote count message
   function upvoterCounter() {
+    // Remove current user
     const withoutCurrentUser =
       user && upvotes.filter((voters) => voters !== user.nickname);
+
+    //
     switch (true) {
       // you
       case hasUpvoted && upvotes.length === 1:
@@ -113,6 +179,7 @@ export function AdviceCard({
           withoutCurrentUser.length - 1
         } others`;
 
+      // Only upvoted by the current user
       case upvotes.length === 1:
         return `upvoted by ${upvotes[0]}`;
 
@@ -132,34 +199,66 @@ export function AdviceCard({
         >
           <Card>
             <section className="img-bookmark">
-              <Avatar
-                aria-label="recipe"
-                style={{
-                  margin: "1rem 1rem 0.45rem 1rem",
-                  background: `${isImageBroken ? "red" : ""}`,
+              <Link
+                to={{
+                  pathname: `profile/${authorUsername}`,
+                  state: { params: { author_id } },
                 }}
+                className="no-decoration"
               >
-                {isImageBroken ? (
-                  "R"
-                ) : (
-                  <abbr title={`${authorUsername}`}>
-                    <img
-                      src={`${JSON.parse(authorImageUrl)}`}
-                      alt={authorUsername.slice(0, 1)}
-                      width="100%"
-                      height="100%"
-                      onError={brokenImageAlt}
-                    />
-                  </abbr>
-                )}
-              </Avatar>
+                <Avatar
+                  aria-label="recipe"
+                  style={{
+                    margin: "1rem 1rem 0.45rem 1rem",
+                    background: `${isImageBroken ? "red" : ""}`,
+                  }}
+                >
+                  {isImageBroken ? (
+                    authorUsername.slice(0, 1)
+                  ) : (
+                    <abbr title={`${authorUsername}`}>
+                      <img
+                        src={`${JSON.parse(authorImageUrl)}`}
+                        alt={authorUsername.slice(0, 1)}
+                        width="100%"
+                        height="100%"
+                        onError={brokenImageAlt}
+                      />
+                    </abbr>
+                  )}
+                </Avatar>
+              </Link>
               <abbr title="Bookmark Advice" className="no-decoration">
-                <div className="bookmark-icon">
-                  {/* bookmark icon */}
-                  <BookmarkBorderOutlined
-                    className={`${bookmarked ? "bookmarked" : ""}`}
-                  />
-                </div>
+                {isBookedMarked ? (
+                  <div
+                    className="bookmark-icon"
+                    onClick={() => {
+                      setIsBookMarked(false);
+                      dispatch(
+                        removeAdviceCardFromBookmark(adviceId, user.nickname)
+                      );
+                    }}
+                  >
+                    <BookmarkBorderOutlined
+                      className={`${isBookedMarked ? "bookmarked" : ""}`}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className="bookmark-icon"
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        return loginWithRedirect();
+                      }
+                      setIsBookMarked(true);
+                      dispatch(bookmarkAdviceCard(adviceId, user.nickname));
+                    }}
+                  >
+                    <BookmarkBorderOutlined
+                      className={`${isBookedMarked ? "bookmarked" : ""}`}
+                    />
+                  </div>
+                )}
               </abbr>
             </section>
             <p className="advice-category-tag">{category}</p>
@@ -197,7 +296,7 @@ export function AdviceCard({
               <abbr title="Share to Twitter" className="no-decoration">
                 <a
                   href={`https://twitter.com/intent/tweet?text=${shareAdviceCardMessage}`}
-                  rel="noreffer"
+                  rel="noreferrer"
                   target="_blank"
                   className="no-decoration"
                 >
@@ -208,13 +307,12 @@ export function AdviceCard({
                 </a>
               </abbr>
               <div
-                className={`vote-wrap ${
-                  upvotes.length - theAuthorUpvote > 0 ? "downvoted" : ""
-                }`}
+                className={`vote-wrap ${hasDownvoted > 0 ? "downvoted" : ""}`}
+                onClick={() => handleDownvote()}
               >
                 <ArrowDownwardRounded className="icon" />{" "}
                 <span className="vote-count">
-                  {handleVotes(downvotes.length)}
+                  {handleVotes(numberOfDownvotes)}
                 </span>
               </div>
             </CardActions>

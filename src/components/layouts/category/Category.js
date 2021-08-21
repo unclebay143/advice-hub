@@ -1,8 +1,10 @@
 import { FormControl, InputLabel, makeStyles, Select } from "@material-ui/core";
 import React from "react";
+import { useHistory } from "react-router";
 import "./category.css";
 
 export const Category = () => {
+  const history = useHistory();
   const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -14,14 +16,10 @@ export const Category = () => {
   }));
 
   const classes = useStyles();
-  const [state, setState] = React.useState({});
 
   const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
+    const value = event.target.value;
+    history.push("/" + value);
   };
 
   return (
@@ -32,19 +30,19 @@ export const Category = () => {
         </InputLabel>
         <Select
           native
-          value={state.age}
           onChange={handleChange}
           inputProps={{
-            name: "age",
+            name: "category",
             id: "filled-category-native-simple",
           }}
         >
           <option aria-label="None" value="" />
-          <option value={10}>HTML and CSS</option>
-          <option value={20}>UI-UX</option>
-          <option value={30}>Web development</option>
-          <option value={30}>Soft Skills</option>
-          <option value={30}>General</option>
+          <option value={"recent"}>All</option>
+          <option value={"general"}>General</option>
+          <option value={"web-development"}>Web development</option>
+          <option value={"product-management"}>product management</option>
+          <option value={"ui-ux"}>UI-UX</option>
+          <option value={"soft-skills"}>Soft Skills</option>
         </Select>
       </FormControl>
     </React.Fragment>
