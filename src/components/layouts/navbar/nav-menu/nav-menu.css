@@ -22,10 +22,9 @@
   display: flex;
   flex-direction: column;
   z-index: 9;
-  width: 21%;
+  width: 100%;
   padding: 1rem 0.5rem 0.49rem 0.5rem;
   background-color: var(--app-background-primary);
-  color: white;
   border: 1px solid var(--app-border-primary);
   border-right: none;
   border-top: none;
@@ -70,4 +69,10 @@
 .nav-menu--bma .bma-wrapper {
   position: unset;
   align-self: flex-end;
+}
+
+@media (min-width: 900px) {
+  .nav-menu {
+    width: 21%;
+  }
 }

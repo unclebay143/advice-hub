@@ -18,6 +18,7 @@ import {
 } from "../../redux/advice/service/root-endpoints";
 import axios from "axios";
 import { AdviceCard } from "../home/advice/AdviceCard";
+import { CardSkeleton } from "../layouts/skeleton/CardSkeleton";
 
 export const Profile = () => {
   const history = useHistory();
@@ -27,6 +28,7 @@ export const Profile = () => {
   const [userData, setUserData] = useState(null);
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [userAdvices, setUserAdvices] = useState([]);
+  const [isFetchingAdvice, setIsFetching] = useState(true);
 
   // check if the logged in user has zero post
   const youHaveZeroPost =
@@ -35,7 +37,7 @@ export const Profile = () => {
     userData?.nickname === user?.nickname;
 
   // check if the user been searched has zero post
-  const hasZeroPost = !isAuthenticated && userAdvices.length === 0;
+  const hasZeroPost = !isFetchingAdvice && userAdvices.length === 0;
 
   useEffect(() => {
     setUserName(id);
@@ -52,10 +54,12 @@ export const Profile = () => {
   // Fetch user advice
   useEffect(() => {
     const fetchUserAdvices = async () => {
+      setIsFetching(true);
       const payload = {
         username: userData[0].nickname,
       };
       const { data } = await axios.post(BASE_URL + USER_ADVICES_URL, payload);
+      setIsFetching(false);
       setUserAdvices(data.data);
     };
 
@@ -93,7 +97,13 @@ export const Profile = () => {
         <div className="user-advices">
           <section className="user-stat">
             <h3>Total Advice Given: </h3>
-            <h3 className="user-stat--counter">{userAdvices.length}</h3>
+            {isFetchingAdvice ? (
+              <p style={{ marginTop: "1rem", color: "#39e58c" }}>
+                Fetching user advices...
+              </p>
+            ) : (
+              <h3 className="user-stat--counter">{userAdvices.length}</h3>
+            )}
           </section>
           {/* user viewing their profile */}
           {youHaveZeroPost && (
@@ -124,36 +134,44 @@ export const Profile = () => {
           <section>
             <div className="advice-card">
               <Grid container spacing={4} className="advice-card-grid">
-                {userAdvices?.map(
-                  ({
-                    heading,
-                    description,
-                    __createdtime__,
-                    upvotes,
-                    downvotes,
-                    category,
-                    authorImageUrl,
-                    authorUsername,
-                    author_id,
-                    id,
-                  }) => {
-                    return (
-                      <AdviceCard
-                        key={id}
-                        heading={heading}
-                        desciption={description}
-                        createdTime={__createdtime__}
-                        upvotes={upvotes}
-                        downvotes={downvotes}
-                        category={category || "Others"}
-                        author_id={author_id}
-                        authorImageUrl={authorImageUrl}
-                        authorUsername={authorUsername}
-                        adviceId={id}
-                        // bookMarked={bookMarkedIDs.includes(id)}
-                      />
-                    );
-                  }
+                {isFetchingAdvice ? (
+                  <>
+                    <CardSkeleton num={4} />
+                  </>
+                ) : (
+                  <>
+                    {userAdvices?.map(
+                      ({
+                        heading,
+                        description,
+                        __createdtime__,
+                        upvotes,
+                        downvotes,
+                        category,
+                        authorImageUrl,
+                        authorUsername,
+                        author_id,
+                        id,
+                      }) => {
+                        return (
+                          <AdviceCard
+                            key={id}
+                            heading={heading}
+                            desciption={description}
+                            createdTime={__createdtime__}
+                            upvotes={upvotes}
+                            downvotes={downvotes}
+                            category={category || "Others"}
+                            author_id={author_id}
+                            authorImageUrl={authorImageUrl}
+                            authorUsername={authorUsername}
+                            adviceId={id}
+                            // bookMarked={bookMarkedIDs.includes(id)}
+                          />
+                        );
+                      }
+                    )}
+                  </>
                 )}
               </Grid>
             </div>

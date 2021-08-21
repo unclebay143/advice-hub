@@ -12,7 +12,7 @@ import {
   ShareOutlined,
 } from "@material-ui/icons";
 
-export const CardSkeleton = ({ num }) => {
+export const CardSkeleton = ({ num = 8 }) => {
   const fakeArray = new Array(num).fill({});
   const [fakeAdvices, setFakeAdvices] = useState(fakeArray);
   return (
