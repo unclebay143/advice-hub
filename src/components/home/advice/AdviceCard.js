@@ -201,7 +201,7 @@ export function AdviceCard({
             <section className="img-bookmark">
               <Link
                 to={{
-                  pathname: `profile/${authorUsername}`,
+                  pathname: `/profile/${authorUsername}`,
                   state: { params: { author_id } },
                 }}
                 className="no-decoration"

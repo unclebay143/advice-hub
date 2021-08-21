@@ -12,7 +12,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
       domain="advicehub.us.auth0.com"
-      clientId="ETLFOPqngAzOL6vketFvIZOd9L9Gjtnb"
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
       redirectUri={window.location.origin}
     >
       <Provider store={store}>

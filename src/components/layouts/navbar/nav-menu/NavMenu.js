@@ -22,7 +22,7 @@ export const NavMenu = () => {
         <div className="nav-menu">
           <Link
             to={{
-              pathname: `profile/${user.nickname}`,
+              pathname: `/profile/${user.nickname}`,
               state: { params: { author_id: user.sub } },
             }}
             className="nav-menu--item profile-link"

@@ -107,7 +107,6 @@ export const fetchBookmarkedAdvices = (username) => async (dispatch) => {
 
 // User profile
 export const fetchUserProfile = (userName) => async (dispatch) => {
-  console.log(userName);
   try {
     const response = await AdviceService.fetchUserProfile(userName);
     return response;

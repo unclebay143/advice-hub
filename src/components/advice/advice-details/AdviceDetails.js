@@ -210,6 +210,9 @@ export const AdviceDetails = () => {
                     isBookedMarked ? "bookmarked" : ""
                   }`}
                   onClick={() => {
+                    if(!isAuthenticated){
+                      return loginWithRedirect()
+                    }
                     setIsBookedMarked(true);
                     dispatch(bookmarkAdviceCard(adviceId, user.nickname));
                   }}
