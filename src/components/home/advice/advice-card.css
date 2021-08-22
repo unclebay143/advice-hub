@@ -32,6 +32,13 @@
   text-transform: capitalize;
 }
 
+.advice-card .custom-infinite-text--alert {
+  text-align: center;
+  color: #39e58c;
+  padding-top: 3rem;
+  font-size: 1.2rem;
+}
+
 .advice-card {
   padding: 2rem;
   display: flex;

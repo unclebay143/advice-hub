@@ -1,0 +1,104 @@
+.user-profile {
+  color: var(--app-text-tertiary);
+}
+
+.profile-header {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(245, 246, 252, 0.52),
+      rgba(117, 19, 93, 0.73)
+    ),
+    url("./bg_cover_img.jpg");
+  width: 100%;
+  height: 150px;
+  background-size: cover;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* profile image */
+.profile-header .user-profile--img {
+  border-radius: 9999px;
+  background-color: white;
+  background-color: #ca9db3;
+  padding: 1px;
+  margin-bottom: -8rem;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-header .user-profile--img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+}
+
+/* profile information */
+.user-profile--information {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.user-profile--information .user-fullname {
+  font-size: 1.4rem;
+}
+
+/*  */
+.user-profile .user-advices {
+  /* padding: 1rem 4rem; */
+  margin-top: 1rem;
+}
+
+.user-profile .user-stat {
+  font-size: 0.9rem;
+  font-weight: 300;
+  text-align: center;
+}
+
+.user-stat .user-stat--counter {
+  color: var(--app-text-primary);
+  margin-top: 1rem;
+}
+
+.user-profile .user-advices .nothing-yet-wrapper {
+  /* display: flex; */
+  /* justify-content: center; */
+}
+
+.user-profile .user-advices .nothing-yet {
+  font-size: 0.8rem;
+  line-height: 40px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.nothing-yet .add-btn {
+  color: var(--app-text-primary);
+  cursor: pointer;
+  text-transform: capitalize;
+  display: flex;
+  margin: auto;
+}
+
+.user-advices .nothing-yet .add-advice {
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.nothing-yet-wrapper img {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+}
+
+.plant-first-advice-wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.nothing-yet-wrapper .plant-first-advice {
+  width: 100%;
+}

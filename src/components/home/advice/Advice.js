@@ -1,63 +1,100 @@
 import { Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BubbleLoader } from "../../layouts/loader/Loader";
 import { AdviceCard } from "./AdviceCard";
 import {
   fetchAdvices,
   fetchBookmarkedAdvices,
 } from "./../../../redux/advice/actions/advice.actions";
-import { pageUrl } from "../../constant/pageurl";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CardSkeleton } from "../../layouts/skeleton/CardSkeleton";
-import { EMPTY_ADVICES } from "../../../redux/types";
 
 export const Advice = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const history = useHistory();
 
   const { advices, bookMarked } = useSelector((state) => state.advices);
   const { user, isAuthenticated } = useAuth0();
   const [sortBy, setsortBy] = useState(id);
+  const bookMarkedIDs = bookMarked.map((a) => a.id);
 
-  // const [advices, setadvices] = useState([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
+  const sortAdvices = (data) => {
+    if (data) {
+      if (!sortBy || sortBy === "recent") {
+        // default
+        return data.sort((a, b) => {
+          return b.__createdtime__ - a.__createdtime__;
+        });
+      }
+      if (sortBy === "oldest") {
+        return data.sort((a, b) => {
+          return a.__createdtime__ - b.__createdtime__;
+        });
+      }
+      if (sortBy === "upvoted") {
+        return data.sort((a, b) => {
+          return Number(b.upvotes.length - a.upvotes.length);
+        });
+      }
+      if (sortBy === "general") {
+        return data.filter((d) => d.category === "general");
+      }
+      if (sortBy === "web-development") {
+        return data.filter((d) => d.category === "web-development");
+      }
+      if (sortBy === "product-management") {
+        return data.filter((d) => d.category === "product-management");
+      }
+      if (sortBy === "ui-ux") {
+        return data.filter((d) => d.category === "ui-ux");
+      }
+      if (sortBy === "soft-skills") {
+        return data.filter((d) => d.category === "soft-skills");
+      }
+      if (sortBy === "bookmarks") {
+        return bookMarked;
+      }
+    }
+  };
+
+  // Set the sort id
   useEffect(() => {
     setsortBy(id);
   }, [id]);
 
+  // Func to fetch more advice
   const fetchMoreAdvice = () => {
     setLoading(true);
     dispatch(fetchAdvices(page, limit))
       .then((res) => {
         res.next ? setHasMore(true) : setHasMore(false);
-        // setadvices([...advices, ...res]);
         setLoading(false);
         setPage(page + 1);
       })
       .catch((error) => console.log(error));
   };
 
+  //
   useEffect(() => {
     fetchMoreAdvice();
-
     sortAdvices();
   }, []);
 
+  // Fetch bookmarked advices 🔖
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchBookmarkedAdvices(user.nickname));
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch, user]);
 
-  // if (advices === null) {
+  // if (advices.length === 0) {
   //   return <BubbleLoader text={"welcome... 👋"} />;
   // }
 
@@ -75,43 +112,13 @@ export const Advice = () => {
   //   );
   // }
 
-  console.log(sortBy, id);
-
-  const sortAdvices = (data) => {
-    if (data) {
-      if (sortBy === "recent") {
-        return data.sort((a, b) => {
-          return b.__createdtime__ - a.__createdtime__;
-        });
-      }
-      if (sortBy === "oldest") {
-        return data.sort((a, b) => {
-          return a.__createdtime__ - b.__createdtime__;
-        });
-      }
-      if (sortBy === "upvoted") {
-        return data.sort((a, b) => {
-          return Number(b.upvotes.length - a.upvotes.length);
-        });
-      }
-    }
-    //  else {
-    // history.push("/recent");
-    // return advices.sort((a, b) => {
-    //   return b.__createdtime__ - a.__createdtime__;
-    // });
-    // }
-  };
-
-  if (sortBy === "bookmarks" && isAuthenticated && bookMarked.length === 0) {
+  if (sortBy === "bookmarks" && bookMarked.length === 0) {
     return (
       <div className="advice-card no-bookmark-wrap">
         <p className="no-bookmark">No bookmark yet 😀</p>
       </div>
     );
   }
-
-  console.log(bookMarked);
 
   return (
     <React.Fragment>
@@ -121,53 +128,48 @@ export const Advice = () => {
             dataLength={advices.length} //This is important field to render the next data
             next={fetchMoreAdvice}
             hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
+            loader={<h4 className="custom-infinite-text--alert">Loading...</h4>}
             endMessage={
-              <p
-                style={{
-                  textAlign: "center",
-                  color: "#39e58c",
-                  paddingTop: "3rem",
-                  fontSize: "1.2rem",
-                }}
-              >
-                <b>Yay! You have seen it all</b>
+              <p className="custom-infinite-text--alert">
+                <b>You have seen it all</b>
               </p>
             }
           >
             <Grid container spacing={4} className="advice-card-grid">
-              {sortAdvices(advices).map(
-                (
-                  {
-                    heading,
-                    description,
-                    __createdtime__,
-                    upvotes,
-                    downvotes,
-                    category,
-                    authorImageUrl,
-                    authorUsername,
-                    id,
-                  },
-                  index
-                ) => {
+              {sortAdvices(advices, sortBy).map(
+                ({
+                  heading,
+                  description,
+                  __createdtime__,
+                  upvotes,
+                  downvotes,
+                  category,
+                  authorImageUrl,
+                  authorUsername,
+                  author_id,
+                  id,
+                }) => {
                   return (
                     <AdviceCard
-                      key={index}
+                      key={id}
                       heading={heading}
                       desciption={description}
                       createdTime={__createdtime__}
                       upvotes={upvotes}
                       downvotes={downvotes}
                       category={category || "Others"}
+                      author_id={author_id}
                       authorImageUrl={authorImageUrl}
                       authorUsername={authorUsername}
                       adviceId={id}
+                      bookMarked={bookMarkedIDs.includes(id)}
                     />
                   );
                 }
               )}
-              {loading && <CardSkeleton />}
+              {(loading || sortBy === "bookmarks") && (
+                <CardSkeleton num={sortBy === "bookmarks" ? 4 : 8} />
+              )}
             </Grid>
           </InfiniteScroll>
         )}

@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core";
 import { Person, PowerSettingsNew } from "@material-ui/icons";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { NAV_MENU_TOGGLE } from "../../../../redux/types";
 import "./nav-menu.css";
 
@@ -11,6 +11,7 @@ export const NavMenu = () => {
   const { logout } = useAuth0();
   const dispatch = useDispatch();
   const { nav_menu_open } = useSelector((state) => state.appLayout);
+  const { user } = useAuth0();
 
   return (
     <React.Fragment>
@@ -19,7 +20,13 @@ export const NavMenu = () => {
         onClick={() => dispatch({ type: NAV_MENU_TOGGLE })}
       >
         <div className="nav-menu">
-          <Link to="/" className="nav-menu--item profile-link">
+          <Link
+            to={{
+              pathname: `/profile/${user.nickname}`,
+              state: { params: { author_id: user.sub } },
+            }}
+            className="nav-menu--item profile-link"
+          >
             <Person /> <span>Profile</span>
           </Link>
 

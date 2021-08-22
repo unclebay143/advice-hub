@@ -3,7 +3,14 @@ import AdviceService from "../service/advice.services";
 
 // Registration service function
 export const createAdvice =
-  ({ heading, description, category, authorUsername, authorImageUrl }) =>
+  ({
+    heading,
+    description,
+    category,
+    authorUsername,
+    authorImageUrl,
+    author_id,
+  }) =>
   async (dispatch) => {
     try {
       const response = await AdviceService.createAdvice(
@@ -11,7 +18,8 @@ export const createAdvice =
         description,
         category,
         authorUsername,
-        authorImageUrl
+        authorImageUrl,
+        author_id
       );
 
       return response;
@@ -52,6 +60,16 @@ export const upvoteAdviceCard = (adviceId, username) => async (dispatch) => {
   }
 };
 
+// Downvote function
+export const downvoteAdviceCard = (adviceId, username) => async (dispatch) => {
+  try {
+    const response = await AdviceService.downvoteAdviceCard(adviceId, username);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
 // Bookmark function
 export const bookmarkAdviceCard = (adviceId, username) => async (dispatch) => {
   try {
@@ -62,11 +80,35 @@ export const bookmarkAdviceCard = (adviceId, username) => async (dispatch) => {
   }
 };
 
+// Remove Bookmark
+export const removeAdviceCardFromBookmark =
+  (adviceId, username) => async (dispatch) => {
+    try {
+      const response = await AdviceService.removeAdviceCardFromBookmark(
+        adviceId,
+        username
+      );
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+
 // Bookmark function
 export const fetchBookmarkedAdvices = (username) => async (dispatch) => {
   try {
     const response = await AdviceService.getBookmarkAdviceCard(username);
     dispatch({ type: BOOKMARKED_ADVICE, payload: response.data });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// User profile
+export const fetchUserProfile = (userName) => async (dispatch) => {
+  try {
+    const response = await AdviceService.fetchUserProfile(userName);
     return response;
   } catch (error) {
     return error;

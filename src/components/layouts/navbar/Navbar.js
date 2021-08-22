@@ -56,7 +56,7 @@ export const Navbar = () => {
                 className="nav-right--img"
                 onClick={() => dispatch({ type: NAV_MENU_TOGGLE })}
               >
-                <img
+                <img 
                   src={user.picture}
                   width="100%"
                   alt={`${user.name} avatar`}

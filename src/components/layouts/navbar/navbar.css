@@ -4,7 +4,7 @@ header {
 
 header .brand {
   color: var(--app-text-primary);
-  font-size: 1.3rem;
+  font-size: 0.9rem;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -70,8 +70,10 @@ header .MuiCard-root .nav-right--img {
   color: var(--app-text-tertiary);
   font-weight: 600;
 }
+
 @media (min-width: 900px) {
   header .MuiCard-root {
+    /* padding: 2rem 4rem; */
     padding: 0 4rem;
   }
 
