@@ -1,24 +1,30 @@
-import { Grid } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AdviceCard } from "./AdviceCard";
+import { useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Grid } from "@material-ui/core";
+import "./advice-card.css";
+
+//  Actions
 import {
   fetchAdvices,
   fetchBookmarkedAdvices,
 } from "./../../../redux/advice/actions/advice.actions";
-import { useParams } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { CardSkeleton } from "../../layouts/skeleton/CardSkeleton";
 
-export const Advice = () => {
+// Components
+import InfiniteScroll from "react-infinite-scroll-component";
+import BubbleLoader from "../../layouts/loader/Loader";
+const CardSkeleton = lazy(() => import("../../layouts/skeleton/CardSkeleton"));
+const AdviceCard = lazy(() => import("./AdviceCard"));
+
+const Advice = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
   const { advices, bookMarked } = useSelector((state) => state.advices);
   const { user, isAuthenticated } = useAuth0();
   const [sortBy, setsortBy] = useState(id);
-  const bookMarkedIDs = bookMarked.map((a) => a.id);
+  const bookMarkedIDs = bookMarked?.map((a) => a.id);
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
@@ -94,9 +100,10 @@ export const Advice = () => {
     }
   }, [isAuthenticated, dispatch, user]);
 
-  // if (advices.length === 0) {
-  //   return <BubbleLoader text={"welcome... 👋"} />;
-  // }
+  if (advices.length === 0) {
+    // return <BubbleLoader text={"welcome... 👋"} />;
+    return <BubbleLoader />;
+  }
 
   // if (advices?.length === 0) {
   //   return (
@@ -111,6 +118,14 @@ export const Advice = () => {
   //     </div>
   //   );
   // }
+
+  if (sortBy === "bookmarks" && bookMarked === null) {
+    return (
+      <div className="advice-card no-bookmark-wrap">
+        <p className="no-bookmark">Fetching bookmark 🚿</p>
+      </div>
+    );
+  }
 
   if (sortBy === "bookmarks" && bookMarked.length === 0) {
     return (
@@ -162,7 +177,7 @@ export const Advice = () => {
                       authorImageUrl={authorImageUrl}
                       authorUsername={authorUsername}
                       adviceId={id}
-                      bookMarked={bookMarkedIDs.includes(id)}
+                      bookMarked={bookMarkedIDs?.includes(id)}
                     />
                   );
                 }
@@ -177,3 +192,5 @@ export const Advice = () => {
     </React.Fragment>
   );
 };
+
+export default Advice;

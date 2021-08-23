@@ -21,3 +21,30 @@
   color: var(--app-text-primary);
   letter-spacing: 2px;
 }
+
+/* home */
+
+.bma-wrapper {
+  position: fixed;
+  bottom: 18px;
+  right: 10px;
+  height: 3rem;
+  background-color: var(--app-text-primary);
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+}
+
+.bma-img {
+  border-radius: 70%;
+  color: white;
+  height: 40px;
+  width: 40px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}

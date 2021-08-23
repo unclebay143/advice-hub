@@ -3,6 +3,21 @@
   margin-top: 1rem;
 }
 
+.advice-not-found {
+  text-align: center;
+  color: var(--app-text-primary);
+  padding: 3rem;
+}
+
+.advice-not-found div {
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.advice-not-found div a {
+  color: var(--app-text-secondary);
+}
+
 /* author info section */
 
 .advice-details {
@@ -28,16 +43,44 @@
 .author-info .author-name {
   color: var(--app-text-tertiary);
   font-size: 0.87rem;
-  padding-left: 0.5rem;
   align-self: flex-end;
   opacity: 0.9;
 }
 
 .advice-details .advice-heading {
   color: var(--app-text-tertiary);
-  font-size: 1.3rem;
-  line-height: 35px;
+  /* font-size: 1.3rem; */
+  font-size: 1rem;
+  /* line-height: 35px; */
   text-transform: capitalize;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.advice-action-wrapper {
+  padding-left: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.advice-action-wrapper .edit-icon {
+  cursor: pointer;
+  color: var(--app-text-secondary);
+}
+
+.advice-action-wrapper .edit-icon:hover {
+  opacity: 0.7;
+}
+
+.advice-action-wrapper .delete-icon {
+  cursor: pointer;
+  color: var(--app-text--danger);
+}
+
+.advice-action-wrapper .delete-icon:hover {
+  opacity: 0.7;
 }
 
 /* advice information */
@@ -75,7 +118,7 @@
   color: var(--app-text-tertiary);
   text-transform: capitalize;
   font-weight: 700;
-  /* font-size: 0.74rem; */
+  font-size: 0.74rem;
 }
 
 .advice-action .downvote-icon {
@@ -95,6 +138,7 @@
   color: var(--app-text-tertiary);
   padding: 2rem 0 1rem 0;
   font-size: 20px;
+  margin-top: 1rem;
 }
 
 .advice-description .no-description {
@@ -136,7 +180,7 @@
   }
 
   .advice-details .advice-heading {
-    font-size: 1rem;
+    font-size: 1.3rem;
     line-height: 40px;
   }
 

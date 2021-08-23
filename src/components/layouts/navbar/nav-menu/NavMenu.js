@@ -1,11 +1,15 @@
+import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import "./nav-menu.css";
+
+// Types
+import { NAV_MENU_TOGGLE } from "../../../../redux/types";
+
+// Icons
 import { Button } from "@material-ui/core";
 import { Person, PowerSettingsNew } from "@material-ui/icons";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
-import { NAV_MENU_TOGGLE } from "../../../../redux/types";
-import "./nav-menu.css";
 
 export const NavMenu = () => {
   const { logout } = useAuth0();

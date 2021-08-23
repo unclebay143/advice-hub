@@ -1,13 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { Button } from "@material-ui/core";
+import React, { lazy, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router";
+import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+
+import axios from "axios";
+
+// Icons
 import {
   ArrowDownward,
   ArrowUpward,
   Bookmark,
   Comment,
+  Delete,
+  Edit,
 } from "@material-ui/icons";
 import "./advice-details.css";
+
+// Actions
 import {
   bookmarkAdviceCard,
   fetchBookmarkedAdvices,
@@ -15,14 +25,22 @@ import {
   removeAdviceCardFromBookmark,
   upvoteAdviceCard,
 } from "../../../redux/advice/actions/advice.actions";
-import { useDispatch, useSelector } from "react-redux";
-import { timeAgo } from "../../_helper/time/time";
-import { BubbleLoader } from "../../layouts/loader/Loader";
-import { handleUpvoteRendering } from "../../_helper/votes/voterendering";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "react-router-dom";
 
-export const AdviceDetails = () => {
+// Helper
+import { timeAgo } from "../../_helper/time/time";
+import { handleUpvoteRendering } from "../../_helper/votes/voterendering";
+
+// Loader
+import BubbleLoader from "../../layouts/loader/Loader";
+
+// Component
+import { Button } from "@material-ui/core";
+import { BASE_URL } from "../../../redux/advice/service/root-endpoints";
+
+const EditForm = lazy(() => import("../update-advice/EditForm"));
+
+const AdviceDetails = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { adviceId } = useParams();
   const [adviceDetails, setAdviceDetails] = useState(null);
@@ -30,9 +48,11 @@ export const AdviceDetails = () => {
   const [hasUpvoted, setHasUpvoted] = useState(false);
   const [numberOfUpvotes, setNumberOfUpvotes] = useState(0);
   const { bookMarked } = useSelector((state) => state.advices);
-  const bookMarkedIDs = bookMarked.map((advice) => advice.id);
-  const bookedMarkedStatus = bookMarkedIDs.includes(adviceDetails?.id);
+  const bookMarkedIDs = bookMarked?.map((advice) => advice.id);
+  const bookedMarkedStatus = bookMarkedIDs?.includes(adviceDetails?.id);
   const [isBookedMarked, setIsBookedMarked] = useState(bookedMarkedStatus);
+
+  const [editMode, setEditMode] = useState(false);
 
   // Get all bookmarks of the user to check if the current is bookmarked
   useEffect(() => {
@@ -128,117 +148,180 @@ export const AdviceDetails = () => {
     }
   };
 
+  // delete advice
+
+  const deleteAdvice = async () => {
+    const confirmDelete = window.confirm(
+      "Do you really want to delete this advice?"
+    );
+    if (confirmDelete) {
+      try {
+        const { data } = await axios.post(BASE_URL + "/advice/delete", {
+          adviceId,
+        });
+
+        if (data.status.toLowerCase() === "success") {
+          history.push(`/profile/${authorUsername}`);
+        }
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  //
+  const canEditAndDelete = user?.nickname === authorUsername;
+  // const adviceNotFound = adviceDetails === undefined;
+
+  if (adviceDetails === undefined) {
+    return (
+      <>
+        <div className="advice-not-found">
+          <h1>Advice Not Found 😢</h1>
+          <div>
+            <Link to="/" className="no-decoration">
+              Back to Advice Hub
+            </Link>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <React.Fragment>
-      <div className="advice-details-container">
-        <article className="advice-details">
-          <div className="advice-heading">
-            <h1>{heading}</h1>
-          </div>
-          <section className="author-info">
-            <Link
-              className="no-decoration"
-              to={{
-                pathname: `/profile/${authorUsername}`,
-                state: { params: { author_id } },
-              }}
-            >
-              <div className="author-image">
-                <img
-                  src={`${JSON.parse(authorImageUrl)}`}
-                  alt={`${authorUsername}`}
-                />
-              </div>
-              <cite className="author-name">By: {authorUsername}</cite>
-            </Link>
-          </section>
-
-          <section className="advice-description">
-            {description ? (
-              <p className="advice-description--text">{description}</p>
-            ) : (
-              <p className="no-description">No description 😀</p>
-            )}
-          </section>
-
-          <section className="advice-info">
-            <Link className="no-decoration" to={`/${category}`}>
-              <Button className="advice-tag">#{category}</Button>
-            </Link>
-            <Button className="posted-date">
-              Posted: {timeAgo(__createdtime__)}
-            </Button>
-          </section>
-
-          <section className="advice-upvote-counter">
-            {handleUpvoteRendering(numberOfUpvotes)}
-          </section>
-
-          <section className="advice-action">
-            <Button
-              className={`advice-action--icon ${hasUpvoted ? "upvoted" : ""}`}
-              onClick={() => handleUpvote()}
-              style={{
-                opacity: `${
-                  isAuthenticated && user.nickname === authorUsername && "0.8"
-                }`,
-              }}
-            >
-              <ArrowUpward /> &nbsp; upvote
-            </Button>
-            <Button className="advice-action--icon">
-              <Comment /> &nbsp; Comment
-            </Button>
-            <abbr title="Bookmark Advice" className="no-decoration">
-              {isBookedMarked ? (
-                <Button
-                  className={`advice-action--icon ${
-                    isBookedMarked ? "bookmarked" : ""
-                  }`}
-                  onClick={() => {
-                    setIsBookedMarked(false);
-                    dispatch(
-                      removeAdviceCardFromBookmark(adviceId, user.nickname)
-                    );
-                  }}
-                >
-                  <Bookmark /> &nbsp; bookmark
-                </Button>
-              ) : (
-                <Button
-                  className={`advice-action--icon ${
-                    isBookedMarked ? "bookmarked" : ""
-                  }`}
-                  onClick={() => {
-                    if(!isAuthenticated){
-                      return loginWithRedirect()
-                    }
-                    setIsBookedMarked(true);
-                    dispatch(bookmarkAdviceCard(adviceId, user.nickname));
-                  }}
-                >
-                  <Bookmark /> &nbsp; bookmark
-                </Button>
+      {editMode ? (
+        <div className="advice-details-container">
+          <article className="advice-details">
+            <div className="advice-heading">
+              <h1>{heading}</h1>
+              {canEditAndDelete && (
+                <section className="advice-action-wrapper">
+                  <Edit className="edit-icon" />
+                  <Delete className="delete-icon" onClick={deleteAdvice} />
+                </section>
               )}
-            </abbr>
+            </div>
+            <section className="author-info">
+              <Link
+                className="no-decoration"
+                aria-label={authorUsername}
+                to={{
+                  pathname: `/profile/${authorUsername}`,
+                  state: { params: { author_id } },
+                }}
+              >
+                <div className="author-image">
+                  <img
+                    src={`${JSON.parse(authorImageUrl)}`}
+                    alt={`${authorUsername}`}
+                  />
+                </div>
+                <cite className="author-name">By: {authorUsername}</cite>
+              </Link>
+            </section>
 
-            <Button
-              className="downvote-icon advice-action--icon"
-              style={{
-                opacity: `${
-                  isAuthenticated && user.nickname === authorUsername && "0.8"
-                }`,
-              }}
-            >
-              <ArrowDownward /> &nbsp; downvote
-            </Button>
-          </section>
+            <section className="advice-description">
+              {description ? (
+                <p className="advice-description--text">{description}</p>
+              ) : (
+                <p className="no-description">No description 😀</p>
+              )}
+            </section>
 
-          <section className="advice-comment-container">
-            <p className="no-comment">No comment yet</p>
-          </section>
-        </article>
-      </div>
+            <section className="advice-info">
+              <Link
+                className="no-decoration"
+                aria-label={heading}
+                to={`/${category}`}
+              >
+                <Button className="advice-tag">#{category}</Button>
+              </Link>
+              <Button className="posted-date">
+                Posted: {timeAgo(__createdtime__)}
+              </Button>
+            </section>
+
+            <section className="advice-upvote-counter">
+              {handleUpvoteRendering(numberOfUpvotes)}
+            </section>
+
+            <section className="advice-action">
+              <Button
+                className={`advice-action--icon ${hasUpvoted ? "upvoted" : ""}`}
+                onClick={() => handleUpvote()}
+                style={{
+                  opacity: `${
+                    isAuthenticated && user.nickname === authorUsername && "0.8"
+                  }`,
+                }}
+              >
+                <ArrowUpward /> &nbsp; upvote
+              </Button>
+              <Button className="advice-action--icon">
+                <Comment /> &nbsp; Comment
+              </Button>
+              <abbr title="Bookmark Advice" className="no-decoration">
+                {isBookedMarked ? (
+                  <Button
+                    className={`advice-action--icon ${
+                      isBookedMarked ? "bookmarked" : ""
+                    }`}
+                    onClick={() => {
+                      setIsBookedMarked(false);
+                      dispatch(
+                        removeAdviceCardFromBookmark(adviceId, user.nickname)
+                      );
+                    }}
+                  >
+                    <Bookmark /> &nbsp; bookmark
+                  </Button>
+                ) : (
+                  <Button
+                    className={`advice-action--icon ${
+                      isBookedMarked ? "bookmarked" : ""
+                    }`}
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        return loginWithRedirect();
+                      }
+                      setIsBookedMarked(true);
+                      dispatch(bookmarkAdviceCard(adviceId, user.nickname));
+                    }}
+                  >
+                    <Bookmark /> &nbsp; bookmark
+                  </Button>
+                )}
+              </abbr>
+
+              <Button
+                className="downvote-icon advice-action--icon"
+                style={{
+                  opacity: `${
+                    isAuthenticated && user.nickname === authorUsername && "0.8"
+                  }`,
+                }}
+              >
+                <ArrowDownward /> &nbsp; downvote
+              </Button>
+            </section>
+
+            <section className="advice-comment-container">
+              <p className="no-comment">No comment yet</p>
+            </section>
+          </article>
+        </div>
+      ) : (
+        <EditForm
+          adviceId={adviceId}
+          heading={heading}
+          description={description}
+          category={category}
+        />
+      )}
     </React.Fragment>
   );
 };
+
+export default AdviceDetails;

@@ -5,9 +5,17 @@ header {
 header .brand {
   color: var(--app-text-primary);
   font-size: 0.9rem;
+  font-size: 1.34rem;
+
   font-weight: 700;
   display: flex;
   align-items: center;
+}
+
+@media (min-width: 500px) {
+  header .brand {
+    font-size: 1.65rem;
+  }
 }
 
 header .MuiCard-root {
@@ -35,7 +43,7 @@ header .MuiCard-root .nav-right {
 
 .nav-right .theme-switcher {
   color: var(--app-text-tertiary);
-
+  display: none;
   /* color: var(--app-text-secondary); */
 }
 
@@ -46,8 +54,11 @@ header .MuiCard-root .nav-right {
 .new-advice-btn {
   padding-right: 1rem;
   font-weight: 600;
+  font-size: 0.8rem;
   color: var(--app-text-primary);
   display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: lighter;
 }
 
@@ -80,5 +91,14 @@ header .MuiCard-root .nav-right--img {
   header .brand {
     font-size: 1.65rem;
     font-weight: 700;
+  }
+
+  .nav-right .theme-switcher {
+    display: flex;
+  }
+
+  .new-advice-btn {
+    font-size: 1rem;
+    align-items: unset;
   }
 }

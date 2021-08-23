@@ -111,7 +111,7 @@ section.img-bookmark {
 }
 
 .advice-card-grid {
-  margin: auto;
+  /* margin: auto; */
 }
 
 /* Card title */
@@ -210,5 +210,6 @@ section.img-bookmark {
 @media (min-width: 900px) {
   .advice-card {
     padding: 3rem 4rem 4rem 4rem;
+    padding: 3rem 4rem 4rem;
   }
 }

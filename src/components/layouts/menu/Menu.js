@@ -1,20 +1,28 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { NavLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
+import "./menu.css";
+
+// Types
 import {
   BOOKMARKED_ADVICE,
   OLDEST_ADVICE,
   RECENT_ADVICE,
   UPVOTED_ADVICE,
 } from "../../../redux/types";
+
+// Components
+import { Button } from "@material-ui/core";
 import { Category } from "../category/Category";
-import "./menu.css";
+
+// Actions
 import {
   fetchAdvices,
   fetchBookmarkedAdvices,
 } from "../../../redux/advice/actions/advice.actions";
-import { NavLink } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+
+// Constant url
 import { pageUrl } from "../../constant/pageurl";
 
 export const Menu = () => {
@@ -54,7 +62,10 @@ export const Menu = () => {
               activeClassName="active-sort"
               to="/recent"
             >
-              <Button onClick={() => handleSelection(RECENT_ADVICE)}>
+              <Button
+                className="menu-button"
+                onClick={() => handleSelection(RECENT_ADVICE)}
+              >
                 Recent
               </Button>
             </NavLink>
@@ -63,7 +74,10 @@ export const Menu = () => {
               activeClassName="active-sort"
               to="oldest"
             >
-              <Button onClick={() => handleSelection(OLDEST_ADVICE)}>
+              <Button
+                className="menu-button"
+                onClick={() => handleSelection(OLDEST_ADVICE)}
+              >
                 Oldest
               </Button>
             </NavLink>
@@ -72,7 +86,10 @@ export const Menu = () => {
               to="/upvoted"
               activeClassName="active-sort"
             >
-              <Button onClick={() => handleSelection(UPVOTED_ADVICE)}>
+              <Button
+                className="menu-button"
+                onClick={() => handleSelection(UPVOTED_ADVICE)}
+              >
                 Upvoted
               </Button>
             </NavLink>
@@ -83,7 +100,10 @@ export const Menu = () => {
                 activeClassName="active-sort"
                 to={pageUrl.BOOKMARKS}
               >
-                <Button onClick={() => handleFetchBookmarks(BOOKMARKED_ADVICE)}>
+                <Button
+                  className="menu-button"
+                  onClick={() => handleFetchBookmarks(BOOKMARKED_ADVICE)}
+                >
                   Bookmarks
                 </Button>
               </NavLink>
