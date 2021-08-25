@@ -2,8 +2,6 @@
 
 [Read Blog]()
 
-
-
 ## Technologies
 - Yarn
 - React JS
