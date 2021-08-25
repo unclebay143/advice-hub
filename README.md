@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# Advice Hub
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[Read Blog]()
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `yarn start`
+## Technologies
+- Yarn
+- React JS
+- Html
+- Css
+- Material UI
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Features
+- 👨‍ Personal Account 
+- 🃏 Create an Advice Card
+- 👍 Upvote an Advice Card
+- 👎 Downvote an Advice Card
+- 📧 Comment on an Advice Card
+- 🔖 Bookmark Advice Card
+- 🔗 Share Advice to Social Media
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<hr />
 
-### `yarn test`
+[Watch Demo]()
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<hr />
 
-### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. [The Advice Hub](http://advicehub.tk/)
+![frame_generic_dark (2)](https://user-images.githubusercontent.com/58919619/130798881-1650afb6-0b38-4eba-96f0-33b29b6377b9.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Sort and View Category Advice Card
+![frame_generic_dark (6)](https://user-images.githubusercontent.com/58919619/130799407-bff2a68c-0aee-4a7e-9637-c5bd9bc51560.png)
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<hr />
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. Signup / Login
+![frame_generic_dark (3)](https://user-images.githubusercontent.com/58919619/130798929-8136aed7-d8b4-475b-b7dc-ce125b1b6329.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+<hr />
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 4. Create Advice Card
+![frame_generic_dark (4)](https://user-images.githubusercontent.com/58919619/130799042-aec914d3-7000-4631-b36a-8730a4ed1368.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+<hr />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 5. Advice Details | Comment
+![frame_generic_dark (7)](https://user-images.githubusercontent.com/58919619/130799669-8cbf4604-6bd7-4f09-9099-44509cfaca01.png)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 6. Manage Advice Card
+![frame_generic_dark (5)](https://user-images.githubusercontent.com/58919619/130799110-30befe1a-f9a6-4be7-abe9-84321642a7a8.png)
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
