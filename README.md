@@ -1,6 +1,6 @@
 # Advice Hub
 
-[Read Blog]()
+[Read Blog](https://unclebigbay.com/introducing-the-advice-hub-a-centralized-advice-center-for-developers)
 
 ## Technologies
 - Yarn
@@ -20,7 +20,7 @@
 
 <hr />
 
-[Watch Demo]()
+[Watch Demo](https://youtu.be/DbMSdSJmV2c)
 
 <hr />
 
