@@ -79,5 +79,6 @@
 
   .nav-menu--item.profile-link {
     align-self: flex-start;
+    width: 100%;
   }
 }

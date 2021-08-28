@@ -29,7 +29,7 @@ function App() {
 
   return (
     <Suspense fallback={<BubbleLoader />}>
-      <div
+      <main
         className={`App ${theme === "light" ? "light" : "default--dark-mode"}
     }`}
       >
@@ -45,7 +45,7 @@ function App() {
           <Route exact path={pageUrl.PROFILE_PAGE} component={Profile} />
           <Route exact path={pageUrl.HOMEPAGE} component={HomePage} />
         </Switch>
-      </div>
+      </main>
     </Suspense>
   );
 }

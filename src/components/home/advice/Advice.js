@@ -27,7 +27,7 @@ const Advice = () => {
   const bookMarkedIDs = bookMarked?.map((a) => a.id);
 
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(18);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
@@ -137,58 +137,59 @@ const Advice = () => {
 
   return (
     <React.Fragment>
-      <div className="advice-card">
-        {advices && (
-          <InfiniteScroll
-            dataLength={advices.length} //This is important field to render the next data
-            next={fetchMoreAdvice}
-            hasMore={hasMore}
-            loader={<h4 className="custom-infinite-text--alert">Loading...</h4>}
-            endMessage={
-              <p className="custom-infinite-text--alert">
-                <b>You have seen it all</b>
-              </p>
-            }
-          >
-            <Grid container spacing={4} className="advice-card-grid">
-              {sortAdvices(advices, sortBy).map(
-                ({
-                  heading,
-                  description,
-                  __createdtime__,
-                  upvotes,
-                  downvotes,
-                  category,
-                  authorImageUrl,
-                  authorUsername,
-                  author_id,
-                  id,
-                }) => {
-                  return (
-                    <AdviceCard
-                      key={id}
-                      heading={heading}
-                      desciption={description}
-                      createdTime={__createdtime__}
-                      upvotes={upvotes}
-                      downvotes={downvotes}
-                      category={category || "Others"}
-                      author_id={author_id}
-                      authorImageUrl={authorImageUrl}
-                      authorUsername={authorUsername}
-                      adviceId={id}
-                      bookMarked={bookMarkedIDs?.includes(id)}
-                    />
-                  );
-                }
-              )}
-              {(loading || sortBy === "bookmarks") && (
-                <CardSkeleton num={sortBy === "bookmarks" ? 4 : 8} />
-              )}
-            </Grid>
-          </InfiniteScroll>
-        )}
-      </div>
+      <section>
+        <div className="advice-card">
+          {advices && (
+            <InfiniteScroll
+              dataLength={advices.length} //This is important field to render the next data
+              next={fetchMoreAdvice}
+              hasMore={hasMore}
+              loader={
+                <h4 className="custom-infinite-text--alert">Loading...</h4>
+              }
+              endMessage={
+                <p className="custom-infinite-text--alert">
+                  <b>You have seen it all</b>
+                </p>
+              }
+            >
+              <Grid container spacing={4} className="advice-card-grid">
+                {sortAdvices(advices, sortBy).map(
+                  ({
+                    heading,
+                    description,
+                    __createdtime__,
+                    upvotes,
+                    downvotes,
+                    category,
+                    authorImageUrl,
+                    authorUsername,
+                    author_id,
+                    id,
+                  }) => {
+                    return (
+                      <AdviceCard
+                        key={id}
+                        heading={heading}
+                        desciption={description}
+                        createdTime={__createdtime__}
+                        upvotes={upvotes}
+                        downvotes={downvotes}
+                        category={category || "Others"}
+                        author_id={author_id}
+                        authorImageUrl={authorImageUrl}
+                        authorUsername={authorUsername}
+                        adviceId={id}
+                        bookMarked={bookMarkedIDs?.includes(id)}
+                      />
+                    );
+                  }
+                )}
+              </Grid>
+            </InfiniteScroll>
+          )}
+        </div>
+      </section>
     </React.Fragment>
   );
 };

@@ -41,7 +41,7 @@
 
 .advice-card {
   padding: 2rem;
-  display: flex;
+  /* display: flex; */
 }
 
 section.img-bookmark {
@@ -121,7 +121,6 @@ section.img-bookmark {
   font-size: 1.1rem;
   line-height: 1.6;
   padding-top: 1rem;
-  text-transform: capitalize;
   font-family: "Poppins";
 }
 

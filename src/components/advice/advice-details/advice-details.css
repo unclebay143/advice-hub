@@ -52,7 +52,6 @@
   /* font-size: 1.3rem; */
   font-size: 1rem;
   /* line-height: 35px; */
-  text-transform: capitalize;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -75,6 +74,8 @@
 }
 
 .advice-action-wrapper .delete-icon {
+  position: relative;
+  top: 1rem;
   cursor: pointer;
   color: var(--app-text--danger);
 }
@@ -166,11 +167,16 @@
   text-transform: capitalize;
 }
 
+.advice-comment-form {
+  margin-top: 2rem;
+}
+
 /* media query */
 
 @media (min-width: 700px) {
   .advice-details-container {
     display: flex;
+    flex-direction: column;
     border-right: 0.9px solid var(--app-border-primary);
     border-left: 0.9px solid var(--app-border-primary);
     min-height: 100vh;

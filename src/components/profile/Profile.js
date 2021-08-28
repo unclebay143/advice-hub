@@ -39,11 +39,15 @@ const Profile = () => {
   // check if the logged in user has zero post
   const youHaveZeroPost =
     isAuthenticated &&
-    userAdvices.length === 0 &&
-    userData?.nickname === user?.nickname;
+    !isFetchingAdvice &&
+    userData[0]?.nickname === user?.nickname &&
+    userAdvices.length === 0;
 
   // check if the user been searched has zero post
-  const hasZeroPost = !isFetchingAdvice && userAdvices.length === 0;
+  const hasZeroPost =
+    !isFetchingAdvice &&
+    userData[0]?.nickname !== user?.nickname &&
+    userAdvices.length === 0;
 
   useEffect(() => {
     setUserName(id);

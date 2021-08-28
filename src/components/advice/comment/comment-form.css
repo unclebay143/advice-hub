@@ -1,0 +1,17 @@
+.comment-form-wrapper .comment-textinput {
+  resize: none;
+  width: 100%;
+  padding: 0.5rem 0.8rem;
+  height: 7rem;
+  outline: none;
+}
+
+.comment-form-wrapper button {
+  width: 100%;
+  background: var(--app-background-secondary);
+}
+
+.comment-form-wrapper button:hover {
+  background-color: var(--app-background-secondary);
+  opacity: 0.8;
+}

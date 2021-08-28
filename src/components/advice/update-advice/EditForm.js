@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
+import axios from "axios";
 import "./editform.css";
+import { BASE_URL } from "../../../redux/advice/service/root-endpoints";
 
 const EditForm = (props) => {
   const { adviceId, heading, description, category } = props;
+  const [isLoading, setIsLoading] = useState(false);
   const [updatedRecord, setUpdatedRecord] = useState({
     adviceId,
     heading,
@@ -17,12 +20,25 @@ const EditForm = (props) => {
     return setUpdatedRecord({ ...updatedRecord, [name]: value });
   };
 
-  // submit function
   // Form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(updatedRecord);
+    setIsLoading(true);
+    try {
+      const { data } = await axios.post(
+        BASE_URL + "/advice/edit",
+        updatedRecord
+      );
+
+      if (data.status.toLowerCase() === "success") {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
   };
+
   return (
     <>
       <div className="edit-form-wrapper">
@@ -31,7 +47,7 @@ const EditForm = (props) => {
           <div className="edit-input-wrapper">
             <label htmlFor="heading">Advice heading</label>
             <input
-              value={heading}
+              defaultValue={heading}
               name="heading"
               id="heading"
               onChange={handleChange}
@@ -41,14 +57,14 @@ const EditForm = (props) => {
             <label htmlFor="description">Advice Description</label>
 
             <textarea
-              value={description}
+              defaultValue={description}
               name="description"
               id="description"
               onChange={handleChange}
             />
           </div>
           <Button variant="contained" color="secondary" type="submit">
-            Update
+            {isLoading ? "Please wait..." : "Update"}
           </Button>
         </form>
       </div>

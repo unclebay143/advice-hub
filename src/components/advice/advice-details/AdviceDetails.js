@@ -36,8 +36,9 @@ import BubbleLoader from "../../layouts/loader/Loader";
 // Component
 import { Button } from "@material-ui/core";
 import { BASE_URL } from "../../../redux/advice/service/root-endpoints";
-
 const EditForm = lazy(() => import("../update-advice/EditForm"));
+const AdviceCommentCard = lazy(() => import("../comment/Comment"));
+const CommentForm = lazy(() => import("../comment/CommentForm"));
 
 const AdviceDetails = () => {
   const history = useHistory();
@@ -192,13 +193,23 @@ const AdviceDetails = () => {
   return (
     <React.Fragment>
       {editMode ? (
+        <EditForm
+          adviceId={adviceId}
+          heading={heading}
+          description={description}
+          category={category}
+        />
+      ) : (
         <div className="advice-details-container">
           <article className="advice-details">
             <div className="advice-heading">
               <h1>{heading}</h1>
               {canEditAndDelete && (
                 <section className="advice-action-wrapper">
-                  <Edit className="edit-icon" />
+                  <Edit
+                    className="edit-icon"
+                    onClick={() => setEditMode(true)}
+                  />
                   <Delete className="delete-icon" onClick={deleteAdvice} />
                 </section>
               )}
@@ -306,19 +317,24 @@ const AdviceDetails = () => {
                 <ArrowDownward /> &nbsp; downvote
               </Button>
             </section>
-
-            <section className="advice-comment-container">
-              <p className="no-comment">No comment yet</p>
-            </section>
           </article>
+
+          {/* Comment form */}
+          <section className="advice-comment-form">
+            {isAuthenticated && (
+              <CommentForm
+                adviceId={adviceId}
+                commentAuthor={user.nickname}
+                commentAuthor_image={user.picture}
+              />
+            )}
+          </section>
+
+          {/* Comment section */}
+          <section className="advice-comment-container">
+            {adviceDetails && <AdviceCommentCard adviceId={adviceId} />}
+          </section>
         </div>
-      ) : (
-        <EditForm
-          adviceId={adviceId}
-          heading={heading}
-          description={description}
-          category={category}
-        />
       )}
     </React.Fragment>
   );
