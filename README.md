@@ -1,6 +1,6 @@
 # Advice Hub
 
-[Read Blog](https://unclebigbay.com/introducing-the-advice-hub-a-centralized-advice-center-for-developers)
+[Read Introductory Article](https://unclebigbay.com/introducing-the-advice-hub-a-centralized-advice-center-for-developers)
 
 ## 💻 Technologies
 - Yarn
