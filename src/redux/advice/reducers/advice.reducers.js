@@ -10,7 +10,7 @@ import {
 const INITIAL_STATE = {
   advices: [],
   sortBy: "recent",
-  bookMarked: [],
+  bookMarked: null,
 };
 
 // redux reducer function

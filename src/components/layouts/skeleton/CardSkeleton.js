@@ -12,7 +12,7 @@ import {
   ShareOutlined,
 } from "@material-ui/icons";
 
-export const CardSkeleton = ({ num = 8 }) => {
+const CardSkeleton = ({ num = 8 }) => {
   const fakeArray = new Array(num).fill({});
   const [fakeAdvices, setFakeAdvices] = useState(fakeArray);
   return (
@@ -74,3 +74,5 @@ export const CardSkeleton = ({ num = 8 }) => {
     </React.Fragment>
   );
 };
+
+export default CardSkeleton;

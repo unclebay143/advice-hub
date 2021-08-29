@@ -46,3 +46,19 @@
 .menu-card-grid .MuiFilledInput-underline:after {
   border-bottom: 2px solid var(--app-text-secondary);
 }
+
+@media (min-width: 900px) {
+  .menu-card-grid {
+    flex-direction: row;
+    padding: 2rem 3.5rem 0rem 3.5rem;
+  }
+  .menu-btn button {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .menu-card-grid .MuiFormControl-root {
+    width: unset;
+    margin-top: 0rem;
+  }
+}

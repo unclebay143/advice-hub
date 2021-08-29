@@ -41,7 +41,7 @@
 
 .advice-card {
   padding: 2rem;
-  display: flex;
+  /* display: flex; */
 }
 
 section.img-bookmark {
@@ -111,7 +111,7 @@ section.img-bookmark {
 }
 
 .advice-card-grid {
-  margin: auto;
+  /* margin: auto; */
 }
 
 /* Card title */
@@ -121,7 +121,6 @@ section.img-bookmark {
   font-size: 1.1rem;
   line-height: 1.6;
   padding-top: 1rem;
-  text-transform: capitalize;
   font-family: "Poppins";
 }
 
@@ -194,6 +193,7 @@ section.img-bookmark {
 }
 .bookmark-icon .bookmarked {
   color: var(--app-text-primary);
+  z-index: 10;
 }
 
 .vote-wrap.upvoted .icon,
@@ -210,5 +210,6 @@ section.img-bookmark {
 @media (min-width: 900px) {
   .advice-card {
     padding: 3rem 4rem 4rem 4rem;
+    padding: 3rem 4rem 4rem;
   }
 }

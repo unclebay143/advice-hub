@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardActions from "@material-ui/core/CardActions";
-import Avatar from "@material-ui/core/Avatar";
-import { Grid } from "@material-ui/core";
-import "./advice-card.css";
+import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import "./../advice/advice-card.css";
+
+// Icons
 import {
   ArrowDownwardRounded,
   ArrowUpwardOutlined,
@@ -12,19 +11,28 @@ import {
   Chat,
   ShareOutlined,
 } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+
+//  Helpers
 import { timeAgo } from "../../_helper/time/time";
 import { handleVotes } from "../../_helper/votes/voterendering";
-import { useAuth0 } from "@auth0/auth0-react";
+
+// Actions
 import {
   bookmarkAdviceCard,
   downvoteAdviceCard,
   removeAdviceCardFromBookmark,
   upvoteAdviceCard,
 } from "../../../redux/advice/actions/advice.actions";
-import { useDispatch } from "react-redux";
 
-export function AdviceCard({
+// Components
+import Card from "@material-ui/core/Card";
+import { useDispatch } from "react-redux";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardActions from "@material-ui/core/CardActions";
+import Avatar from "@material-ui/core/Avatar";
+import { Grid } from "@material-ui/core";
+
+export default function AdviceCard({
   createdTime,
   heading,
   upvotes,
@@ -51,7 +59,7 @@ export function AdviceCard({
   };
 
   // Abbr text on hover
-  const shareAdviceCardMessage = `${heading} -By: ${authorUsername}`;
+  const shareAdviceCardMessage = `${heading} -an advice By: ${authorUsername} on www.advicehub.tk for developers`;
 
   // Check if the user has upvoted the post -author not included
   useEffect(() => {
@@ -205,12 +213,16 @@ export function AdviceCard({
                   state: { params: { author_id } },
                 }}
                 className="no-decoration"
+                aria-label={heading}
               >
                 <Avatar
                   aria-label="recipe"
                   style={{
                     margin: "1rem 1rem 0.45rem 1rem",
-                    background: `${isImageBroken ? "red" : ""}`,
+                    background: `${isImageBroken ? "red" : "transparent"}`,
+                    height: "2rem",
+                    width: "2rem",
+                    overflow: "unset",
                   }}
                 >
                   {isImageBroken ? (
@@ -223,6 +235,8 @@ export function AdviceCard({
                         width="100%"
                         height="100%"
                         onError={brokenImageAlt}
+                        loading="lazy"
+                        style={{ borderRadius: "50%" }}
                       />
                     </abbr>
                   )}
@@ -262,7 +276,11 @@ export function AdviceCard({
               </abbr>
             </section>
             <p className="advice-category-tag">{category}</p>
-            <Link to={`advice/${adviceId}`} className="no-decoration">
+            <Link
+              to={`/advice/${adviceId}`}
+              className="no-decoration"
+              aria-label={heading}
+            >
               <CardHeader
                 title={`${heading.toString().slice(0, 50)}${
                   heading.length > 50 ? "..." : ""
@@ -288,9 +306,14 @@ export function AdviceCard({
               </abbr>
               {/* comment icon */}
               <abbr title="Comment on this Advice" className="no-decoration">
-                <div className="comment-wrap">
+                <Link
+                  to={`/advice/${adviceId}`}
+                  className="no-decoration"
+                  aria-label={heading}
+                  className="comment-wrap"
+                >
                   <Chat className="comment-icon" />
-                </div>
+                </Link>
               </abbr>
               {/* share icon */}
               <abbr title="Share to Twitter" className="no-decoration">
@@ -299,6 +322,7 @@ export function AdviceCard({
                   rel="noreferrer"
                   target="_blank"
                   className="no-decoration"
+                  aria-label={`twitter handle share - ${shareAdviceCardMessage}`}
                 >
                   <div className="vote-wrap">
                     <ShareOutlined />

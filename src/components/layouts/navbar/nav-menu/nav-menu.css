@@ -46,6 +46,7 @@
   display: flex;
   gap: 0.4rem;
   padding: 0.8rem;
+  align-self: flex-end;
 }
 
 .nav-menu--item.logout-btn {
@@ -74,5 +75,10 @@
 @media (min-width: 900px) {
   .nav-menu {
     width: 21%;
+  }
+
+  .nav-menu--item.profile-link {
+    align-self: flex-start;
+    width: 100%;
   }
 }

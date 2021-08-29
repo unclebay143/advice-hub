@@ -1,43 +1,55 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory, useParams } from "react-router";
-import { fetchUserProfile } from "../../redux/advice/actions/advice.actions";
-import { BubbleLoader } from "../layouts/loader/Loader";
+import { useParams } from "react-router";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 import "./profile.css";
 
+// Actions
+import { fetchUserProfile } from "../../redux/advice/actions/advice.actions";
+
+// Loader
+import BubbleLoader from "../layouts/loader/Loader";
+
+// Icons and Images
 import plantAdvice from "./first-advice.svg";
 import nothingToshow2 from "./empty1.svg";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Add, PlusOne } from "@material-ui/icons";
-import { pageUrl } from "../constant/pageurl";
-import { Link } from "react-router-dom";
-import { Button, Grid } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
+
+// Endpoints
 import {
   BASE_URL,
   USER_ADVICES_URL,
 } from "../../redux/advice/service/root-endpoints";
-import axios from "axios";
-import { AdviceCard } from "../home/advice/AdviceCard";
-import { CardSkeleton } from "../layouts/skeleton/CardSkeleton";
 
-export const Profile = () => {
-  const history = useHistory();
+// Components
+import { Button, Grid } from "@material-ui/core";
+import AdviceCard from "../home/advice/AdviceCard";
+import CardSkeleton from "../layouts/skeleton/CardSkeleton";
+import { pageUrl } from "../constant/pageurl";
+import { Link } from "react-router-dom";
+
+const Profile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [userName, setUserName] = useState(null);
   const [userData, setUserData] = useState(null);
-  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
   const [userAdvices, setUserAdvices] = useState([]);
   const [isFetchingAdvice, setIsFetching] = useState(true);
 
   // check if the logged in user has zero post
   const youHaveZeroPost =
     isAuthenticated &&
-    userAdvices.length === 0 &&
-    userData?.nickname === user?.nickname;
+    !isFetchingAdvice &&
+    userData[0]?.nickname === user?.nickname &&
+    userAdvices.length === 0;
 
   // check if the user been searched has zero post
-  const hasZeroPost = !isFetchingAdvice && userAdvices.length === 0;
+  const hasZeroPost =
+    !isFetchingAdvice &&
+    userData[0]?.nickname !== user?.nickname &&
+    userAdvices.length === 0;
 
   useEffect(() => {
     setUserName(id);
@@ -96,13 +108,17 @@ export const Profile = () => {
         {/* advice count */}
         <div className="user-advices">
           <section className="user-stat">
-            <h3>Total Advice Given: </h3>
-            {isFetchingAdvice ? (
+            <h3>
+              Total Advice Given:&nbsp;&nbsp;
+              {!isFetchingAdvice && (
+                <span className="user-stat--counter">{userAdvices.length}</span>
+              )}
+            </h3>
+
+            {isFetchingAdvice && (
               <p style={{ marginTop: "1rem", color: "#39e58c" }}>
                 Fetching user advices...
               </p>
-            ) : (
-              <h3 className="user-stat--counter">{userAdvices.length}</h3>
             )}
           </section>
           {/* user viewing their profile */}
@@ -110,9 +126,11 @@ export const Profile = () => {
             <div className="nothing-yet-wrapper">
               <h3 className="nothing-yet">
                 Reason: You haven't planted any advice yet.
-                <Button className="add-btn">
-                  <Add className="add-advice" /> Add
-                </Button>
+                <Link to={pageUrl.ADVICE_FORM} className="no-decoration">
+                  <Button className="add-btn">
+                    <Add className="add-advice" /> Add
+                  </Button>
+                </Link>
               </h3>
               <div className="plant-first-advice-wrapper">
                 <img
@@ -181,3 +199,5 @@ export const Profile = () => {
     </>
   );
 };
+
+export default Profile;

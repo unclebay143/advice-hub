@@ -1,0 +1,57 @@
+.edit-form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--app-text-tertiary);
+  margin-top: 2rem;
+}
+
+.edit-form-wrapper form {
+  width: 90%;
+}
+
+.edit-form-wrapper form h1 {
+  /* font-size: 1.3rem; */
+}
+
+.edit-form-wrapper form .edit-input-wrapper {
+  padding-top: 1rem;
+}
+
+.edit-form-wrapper label {
+}
+
+.edit-form-wrapper form .edit-input-wrapper input {
+  height: 3rem;
+  margin-top: 1rem;
+  padding: 0 0.5rem;
+  font-size: 1rem;
+  font-family: "Poppins";
+  font-weight: 600;
+  width: 100%;
+}
+
+.edit-form-wrapper form .edit-input-wrapper textarea {
+  resize: none;
+  height: 10rem;
+  padding: 0.6rem 0.5rem;
+  font-size: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.edit-form-wrapper button {
+  background-color: var(--app-background-secondary);
+  width: 100%;
+}
+
+.edit-form-wrapper button:hover {
+  background-color: var(--app-background-secondary);
+  opacity: 0.8;
+}
+
+@media (min-width: 900px) {
+  .edit-form-wrapper form {
+    width: 30%;
+  }
+}

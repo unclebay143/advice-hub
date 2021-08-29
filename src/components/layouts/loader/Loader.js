@@ -1,8 +1,10 @@
-import { BubbleChart } from "@material-ui/icons";
 import React from "react";
 import "./loader.css";
 
-export const BubbleLoader = ({ text }) => {
+// Icons
+import { BubbleChart } from "@material-ui/icons";
+
+const BubbleLoader = ({ text }) => {
   return (
     <React.Fragment>
       <div className="loader-container">
@@ -27,3 +29,5 @@ export const BubbleLoader = ({ text }) => {
     </React.Fragment>
   );
 };
+
+export default BubbleLoader;
