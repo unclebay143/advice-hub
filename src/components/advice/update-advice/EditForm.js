@@ -51,6 +51,7 @@ const EditForm = (props) => {
               name="heading"
               id="heading"
               onChange={handleChange}
+              required
             />
           </div>
           <div className="edit-input-wrapper">

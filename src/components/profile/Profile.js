@@ -26,6 +26,8 @@ import {
 import { Button, Grid } from "@material-ui/core";
 import AdviceCard from "../home/advice/AdviceCard";
 import CardSkeleton from "../layouts/skeleton/CardSkeleton";
+import { pageUrl } from "../constant/pageurl";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { id } = useParams();
@@ -124,9 +126,11 @@ const Profile = () => {
             <div className="nothing-yet-wrapper">
               <h3 className="nothing-yet">
                 Reason: You haven't planted any advice yet.
-                <Button className="add-btn">
-                  <Add className="add-advice" /> Add
-                </Button>
+                <Link to={pageUrl.ADVICE_FORM} className="no-decoration">
+                  <Button className="add-btn">
+                    <Add className="add-advice" /> Add
+                  </Button>
+                </Link>
               </h3>
               <div className="plant-first-advice-wrapper">
                 <img

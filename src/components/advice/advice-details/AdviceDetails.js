@@ -20,6 +20,7 @@ import "./advice-details.css";
 // Actions
 import {
   bookmarkAdviceCard,
+  downvoteAdviceCard,
   fetchBookmarkedAdvices,
   getAdviceDetails,
   removeAdviceCardFromBookmark,
@@ -28,7 +29,6 @@ import {
 
 // Helper
 import { timeAgo } from "../../_helper/time/time";
-import { handleUpvoteRendering } from "../../_helper/votes/voterendering";
 
 // Loader
 import BubbleLoader from "../../layouts/loader/Loader";
@@ -47,7 +47,7 @@ const AdviceDetails = () => {
   const [adviceDetails, setAdviceDetails] = useState(null);
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [hasUpvoted, setHasUpvoted] = useState(false);
-  const [numberOfUpvotes, setNumberOfUpvotes] = useState(0);
+  const [hasDownvoted, setHasDownvoted] = useState(false);
   const { bookMarked } = useSelector((state) => state.advices);
   const bookMarkedIDs = bookMarked?.map((advice) => advice.id);
   const bookedMarkedStatus = bookMarkedIDs?.includes(adviceDetails?.id);
@@ -76,7 +76,7 @@ const AdviceDetails = () => {
     authorImageUrl,
     __createdtime__,
     upvotes,
-    // downvotes,
+    downvotes,
   } = adviceDetails || {};
 
   // Get advice info
@@ -102,17 +102,27 @@ const AdviceDetails = () => {
         authorUsername !== user.nickname &&
         upvotes.includes(user.nickname);
 
-      setNumberOfUpvotes(upvotes.length);
-
       setHasUpvoted(hasUpvotedStatus);
     }
-  }, [isAuthenticated, upvotes, user, authorUsername]);
+
+    if (user && downvotes) {
+      // if the author username is the same as the current user, it cannot be upvoted -return false
+      const hasDownvotedStatus =
+        isAuthenticated &&
+        authorUsername !== user.nickname &&
+        downvotes.includes(user.nickname);
+
+      //set user downvote status
+      setHasDownvoted(hasDownvotedStatus);
+    }
+  }, [isAuthenticated, upvotes, downvotes, user, authorUsername]);
 
   // Show loader when fetching
   if (adviceDetails === null) {
     return <BubbleLoader />;
   }
 
+  // Upvote function
   const handleUpvote = () => {
     if (!isAuthenticated) {
       loginWithRedirect();
@@ -132,7 +142,6 @@ const AdviceDetails = () => {
         upvotes.splice(userIndex, 1);
       }
       // Update the number of upvotes
-      setNumberOfUpvotes(upvotes.length);
       setHasUpvoted(false);
       user
         ? dispatch(upvoteAdviceCard(adviceId, user.nickname))
@@ -141,7 +150,6 @@ const AdviceDetails = () => {
       // Push the username into the upvoters array
       upvotes.push(user.nickname);
       // Update the number of upvotes
-      setNumberOfUpvotes(upvotes.length);
       setHasUpvoted(true);
       user
         ? dispatch(upvoteAdviceCard(adviceId, user.nickname))
@@ -149,8 +157,40 @@ const AdviceDetails = () => {
     }
   };
 
-  // delete advice
+  // DownVote function
+  const handleDownvote = () => {
+    if (!isAuthenticated) {
+      return loginWithRedirect();
+    }
 
+    // Prevent author from downvoting 🤷‍♂️
+    if (user.nickname === authorUsername) {
+      return;
+    }
+
+    // 👎
+    if (hasDownvoted) {
+      // Get user index
+      const userIndex = downvotes.indexOf(user.nickname);
+      if (userIndex > -1) {
+        // Remove user from downvoters
+        downvotes.splice(userIndex, 1);
+      }
+      setHasDownvoted(false);
+      user
+        ? dispatch(downvoteAdviceCard(adviceId, user.nickname))
+        : loginWithRedirect();
+    } else {
+      // Push the username into the downvoters array
+      downvotes.push(user.nickname);
+      setHasDownvoted(true);
+      user
+        ? dispatch(downvoteAdviceCard(adviceId, user.nickname))
+        : loginWithRedirect();
+    }
+  };
+
+  // delete advice
   const deleteAdvice = async () => {
     const confirmDelete = window.confirm(
       "Do you really want to delete this advice?"
@@ -164,7 +204,6 @@ const AdviceDetails = () => {
         if (data.status.toLowerCase() === "success") {
           history.push(`/profile/${authorUsername}`);
         }
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -190,6 +229,38 @@ const AdviceDetails = () => {
     );
   }
 
+  // Upvote count message
+  function upvoterCounter() {
+    // Remove current user
+    const withoutCurrentUser =
+      user && upvotes.filter((voters) => voters !== user.nickname);
+
+    //
+    switch (true) {
+      // you
+      case hasUpvoted && upvotes.length === 1:
+        return `upvoted by you`;
+
+      // current_user and user_1
+      case hasUpvoted && upvotes.length === 2:
+        return `upvoted by you, and ${withoutCurrentUser[0]}`;
+
+      // current_user , user_1 and user 2
+      case hasUpvoted && upvotes.length > 2:
+        return `upvoted by you, ${withoutCurrentUser[0]} and ${
+          withoutCurrentUser.length - 1
+        } others`;
+
+      // Only upvoted by the current user
+      case upvotes.length === 1:
+        return `upvoted by ${upvotes[0]}`;
+
+      default:
+        return `upvoted by ${upvotes[0] || upvotes[1]} and ${
+          upvotes.length - 1
+        } others`;
+    }
+  }
   return (
     <React.Fragment>
       {editMode ? (
@@ -255,7 +326,7 @@ const AdviceDetails = () => {
             </section>
 
             <section className="advice-upvote-counter">
-              {handleUpvoteRendering(numberOfUpvotes)}
+              {upvoterCounter()}
             </section>
 
             <section className="advice-action">
@@ -307,12 +378,15 @@ const AdviceDetails = () => {
               </abbr>
 
               <Button
-                className="downvote-icon advice-action--icon"
                 style={{
                   opacity: `${
                     isAuthenticated && user.nickname === authorUsername && "0.8"
                   }`,
                 }}
+                className={`downvote-icon advice-action--icon ${
+                  hasDownvoted > 0 ? "downvoted" : ""
+                }`}
+                onClick={() => handleDownvote()}
               >
                 <ArrowDownward /> &nbsp; downvote
               </Button>

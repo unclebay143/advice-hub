@@ -14,7 +14,6 @@ import {
 // Components
 import InfiniteScroll from "react-infinite-scroll-component";
 import BubbleLoader from "../../layouts/loader/Loader";
-const CardSkeleton = lazy(() => import("../../layouts/skeleton/CardSkeleton"));
 const AdviceCard = lazy(() => import("./AdviceCard"));
 
 const Advice = () => {

@@ -59,7 +59,7 @@ export default function AdviceCard({
   };
 
   // Abbr text on hover
-  const shareAdviceCardMessage = `${heading} -By: ${authorUsername}`;
+  const shareAdviceCardMessage = `${heading} -an advice By: ${authorUsername} on www.advicehub.tk for developers`;
 
   // Check if the user has upvoted the post -author not included
   useEffect(() => {
@@ -219,7 +219,10 @@ export default function AdviceCard({
                   aria-label="recipe"
                   style={{
                     margin: "1rem 1rem 0.45rem 1rem",
-                    background: `${isImageBroken ? "red" : ""}`,
+                    background: `${isImageBroken ? "red" : "transparent"}`,
+                    height: "2rem",
+                    width: "2rem",
+                    overflow: "unset",
                   }}
                 >
                   {isImageBroken ? (
@@ -233,6 +236,7 @@ export default function AdviceCard({
                         height="100%"
                         onError={brokenImageAlt}
                         loading="lazy"
+                        style={{ borderRadius: "50%" }}
                       />
                     </abbr>
                   )}
@@ -302,9 +306,14 @@ export default function AdviceCard({
               </abbr>
               {/* comment icon */}
               <abbr title="Comment on this Advice" className="no-decoration">
-                <div className="comment-wrap">
+                <Link
+                  to={`/advice/${adviceId}`}
+                  className="no-decoration"
+                  aria-label={heading}
+                  className="comment-wrap"
+                >
                   <Chat className="comment-icon" />
-                </div>
+                </Link>
               </abbr>
               {/* share icon */}
               <abbr title="Share to Twitter" className="no-decoration">

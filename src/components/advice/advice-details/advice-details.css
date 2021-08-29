@@ -130,6 +130,10 @@
   color: var(--app-text-primary);
 }
 
+.advice-action--icon.downvoted {
+  color: var(--app-text-primary);
+}
+
 .advice-action--icon.bookmarked {
   color: var(--app-text-primary);
 }

@@ -51,6 +51,7 @@ const CommentForm = (props) => {
               placeholder="Comment"
               className="comment-textinput"
               onChange={handleChange}
+              required
             />
           </div>
           <div>

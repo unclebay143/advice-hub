@@ -193,6 +193,7 @@ section.img-bookmark {
 }
 .bookmark-icon .bookmarked {
   color: var(--app-text-primary);
+  z-index: 10;
 }
 
 .vote-wrap.upvoted .icon,
