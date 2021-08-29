@@ -2,14 +2,15 @@
 
 [Read Blog](https://unclebigbay.com/introducing-the-advice-hub-a-centralized-advice-center-for-developers)
 
-## Technologies
+## 💻 Technologies
 - Yarn
 - React JS
 - Html
 - Css
 - Material UI
+- Auth0
 
-## Features
+## 😎 Features
 - 👨‍ Personal Account 
 - 🃏 Create an Advice Card
 - 👍 Upvote an Advice Card
@@ -24,12 +25,13 @@
 
 <hr />
 
+## 📸 Screenshots
 
 ### 1. [The Advice Hub](http://advicehub.tk/)
 ![frame_generic_dark (2)](https://user-images.githubusercontent.com/58919619/130798881-1650afb6-0b38-4eba-96f0-33b29b6377b9.png)
 
 
-### 2. Sort and View Category Advice Card
+### 2. Sort and View Advice Cards in Categories
 ![frame_generic_dark (6)](https://user-images.githubusercontent.com/58919619/130799407-bff2a68c-0aee-4a7e-9637-c5bd9bc51560.png)
 
 
