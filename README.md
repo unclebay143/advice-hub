@@ -1,5 +1,5 @@
 # Advice Hub
-[Read Introductory Article](https://unclebigbay.com/introducing-the-advice-hub-a-centralized-advice-center-for-developers)
+[Read Introductory Article](https://unclebigbay.com/introducing-advice-hub)
 
 ![Orange and Blue 3D Elements Technology in Business and at Work Presentation](https://user-images.githubusercontent.com/58919619/131235450-9b6887d5-7a98-4376-b70e-29859cf570ff.png)
 
